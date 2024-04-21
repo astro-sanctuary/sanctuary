@@ -1,6 +1,6 @@
 import { z } from 'astro:content';
 
-export const schema = z.object({
+export const articlesSchema = z.object({
   jsonapi: z.object({
     version: z.string(),
     meta: z.object({

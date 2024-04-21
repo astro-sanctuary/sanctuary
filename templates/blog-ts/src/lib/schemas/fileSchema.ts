@@ -1,6 +1,6 @@
-import { z } from "astro:content";
+import { z } from 'astro:content';
 
-export const FileSchema = z.object({
+export const fileSchema = z.object({
   type: z.string(),
   id: z.string(),
   links: z.object({ self: z.object({ href: z.string() }) }),

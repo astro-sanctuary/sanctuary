@@ -1,6 +1,6 @@
-import { z } from "astro:content";
+import { z } from 'astro:content';
 
-export const ImageSchema = z.object({
+export const mediaImageSchema = z.object({
   type: z.string(),
   id: z.string(),
   links: z.object({ self: z.object({ href: z.string() }) }),
@@ -15,11 +15,7 @@ export const ImageSchema = z.object({
     changed: z.string(),
     default_langcode: z.boolean(),
     revision_translation_affected: z.boolean(),
-    path: z.object({
-      alias: z.null(),
-      pid: z.null(),
-      langcode: z.string(),
-    }),
+    path: z.object({ alias: z.null(), pid: z.null(), langcode: z.string() }),
     content_translation_source: z.string(),
     content_translation_outdated: z.boolean(),
   }),
