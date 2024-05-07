@@ -9,16 +9,15 @@ import FormattedDate from '../../components/FormattedDate.astro';
 import { client } from "../../lib/client";
 
 import { articlesSchema } from "../../lib/schemas/articlesSchema";
-import { mediaImageSchema } from "../../lib/schemas/mediaImageSchema";
 import { fileSchema } from "../../lib/schemas/fileSchema";
 
 type Articles = z.infer<typeof articlesSchema>;
-type MediaImage = z.infer<typeof mediaImageSchema>;
 type File = z.infer<typeof fileSchema>;
 
 const articles = articlesSchema.parse(await client.getCollection<Articles>("node--article", {
-  queryString: "include=field_media_image.field_media_image",
+  queryString: "include=field_image",
 }));
+
 ---
 
 <!doctype html>
@@ -102,13 +101,7 @@ const articles = articlesSchema.parse(await client.getCollection<Articles>("node
 				<ul>
           {
             articles.data.map((article) => {
-              const mediaId = article.relationships.field_media_image.data.id;
-              const mediaEntity = articles.included.find(
-                (obj) => obj.id === mediaId
-              );
-              const image: MediaImage = mediaImageSchema.parse(mediaEntity);
-              const fileId =
-                image.relationships.field_media_image.data.id;
+              const fileId = article.relationships.field_image.data.id;
               const fileEntity = articles.included.find(
                 (obj) => obj.id === fileId
               );

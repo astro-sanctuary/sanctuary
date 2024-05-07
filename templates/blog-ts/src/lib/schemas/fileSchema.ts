@@ -17,7 +17,11 @@ export const fileSchema = z.object({
   }),
   relationships: z.object({
     uid: z.object({
-      data: z.null(),
+      data: z.object({
+        type: z.string(),
+        id: z.string(),
+        meta: z.object({ drupal_internal__target_id: z.number() }),
+      }),
       links: z.object({
         related: z.object({ href: z.string() }),
         self: z.object({ href: z.string() }),
