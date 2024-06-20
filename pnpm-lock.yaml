@@ -50,6 +50,9 @@ importers:
       '@astrojs/sitemap':
         specifier: ^3.1.6
         version: 3.1.6
+      '@drupal-api-client/json-api-client':
+        specifier: ^1.0.1
+        version: 1.0.1
       astro:
         specifier: ^4.11.0
         version: 4.11.0(typescript@5.4.5)

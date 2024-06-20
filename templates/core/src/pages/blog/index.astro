@@ -5,6 +5,13 @@ import Footer from '../../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
 import { getCollection } from 'astro:content';
 import FormattedDate from '../../components/FormattedDate.astro';
+import { client } from "../../lib/client";
+
+const articles = await client.getCollection("node--article", {
+  queryString: "include=field_image",
+});
+
+console.log(articles);
 
 const posts = (await getCollection('blog')).sort(
 	(a, b) => a.data.pubDate.valueOf() - b.data.pubDate.valueOf()
