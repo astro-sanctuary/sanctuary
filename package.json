@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev:blog-ts": "pnpm --filter './templates/blog-ts' dev"
+    "dev:blog-ts": "pnpm --filter './templates/blog-ts' dev",
+    "dev:core": "pnpm --filter './templates/core' dev"
   },
   "keywords": [],
   "author": "",
