@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev:blog-ts": "pnpm --filter './templates/blog-ts' dev",
-    "dev:core": "pnpm --filter './templates/core' dev"
+    "dev:core": "pnpm --filter './templates/core' dev",
+    "ddev:init": "./scripts/init-drupal.sh",
+    "ddev:destroy": "./scripts/destroy-drupal.sh"
   },
   "keywords": [],
   "author": "",
