@@ -4,3 +4,4 @@ type: "Site"
 
 install:
   - jsonapi
+  - decoupled_router
