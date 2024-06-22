@@ -30,7 +30,7 @@ ddev composer config repositories.recipe path web/recipes/sanctuary_core
 cp -a ../recipes/. web/recipes
 
 # Add useful composer dependencies
-ddev composer require drush/drush drupal/devel drupal/sanctuary_core ewcomposer/unpack:dev-master
+ddev composer require drush/drush drupal/devel drupal/default_content drupal/sanctuary_core ewcomposer/unpack:dev-master
 
 # Install Drupal
 ddev drush site:install --account-name=admin --account-pass=admin -y
@@ -56,8 +56,8 @@ ddev composer unpack drupal/sanctuary_core
 # ddev drush cim --partial --source=../config -y
 
 # Generate some content
-ddev drush en devel_generate -y
-ddev drush genc 25 0
+# ddev drush en devel_generate -y
+# ddev drush genc 25 0
 
 # use the one-time link (CTRL/CMD + Click) from the command below to edit your admin account details.
 ddev drush uli
