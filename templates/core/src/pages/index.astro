@@ -1,13 +1,18 @@
 ---
-import { client } from "../lib/client";
+import { client } from "../lib/client.ts";
+
+import { nodePageSchema } from "../lib/schemas/nodePageSchema";
 
 import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
-const homepage = await client.getResourceByPath('/');
-// Pick up - deserialize data, fugure out approach to types
+// Can get a single element from a collection schema.
+// Can also use pick to refine schema to a subset of fields.
+const nodeSchema = nodePageSchema.element.pick({body: true})
+
+const node = nodeSchema.parse(await client.getResourceByPath('/'));
 ---
 
 <!doctype html>
@@ -17,7 +22,7 @@ const homepage = await client.getResourceByPath('/');
 	</head>
 	<body>
 		<Header />
-		<main set:html={homepage.data.attributes.body.processed}>
+		<main set:html={node.body.processed}>
 		</main>
 		<Footer />
 	</body>

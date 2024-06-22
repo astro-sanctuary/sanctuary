@@ -7,7 +7,8 @@
     "start": "astro dev",
     "build": "astro check && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "generate-schema": "node --env-file=.env bin/generate-schema.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.7.0",
@@ -16,6 +17,8 @@
     "@astrojs/sitemap": "^3.1.6",
     "@drupal-api-client/json-api-client": "^1.0.1",
     "astro": "^4.11.0",
+    "json-to-zod": "^1.1.2",
+    "jsona": "^1.12.1",
     "typescript": "^5.4.5"
   }
 }
