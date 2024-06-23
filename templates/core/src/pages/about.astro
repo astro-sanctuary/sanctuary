@@ -2,8 +2,16 @@
 import { client } from "../lib/client.ts";
 import Layout from '../layouts/BlogPost.astro';
 import { absoluteUrl } from '../lib/utils.ts';
+import { nodeArticleWithImageSchema } from '../lib/schemas/nodeArticleWithImageSchema.ts';
 
-const node = await client.getResourceByPath('about', { queryString:'include=field_image'})
+const nodeSchema = nodeArticleWithImageSchema.element.pick({
+  title: true,
+  created: true,
+  body: true,
+  field_image: true,
+});
+// Ensure API response matches schema
+const node = nodeSchema.parse(await client.getResourceByPath('about', { queryString:'include=field_image'}));
 ---
 
 <Layout
@@ -11,5 +19,4 @@ const node = await client.getResourceByPath('about', { queryString:'include=fiel
 	pubDate={new Date(node.created)}
 	heroImage={absoluteUrl(node.field_image.uri.url)}
   set:html={node.body.processed}
->
-</Layout>
+/>
