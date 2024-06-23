@@ -4,6 +4,7 @@ import { jsonToZod } from "json-to-zod";
 
 // TODO - convert to TS
 // Abstract this to be a more generic generate schema function
+// Or perhaps a script that generates all schemas from the index
 
 const zodImport = "import { z } from 'astro:content';\n\nexport ";
 
