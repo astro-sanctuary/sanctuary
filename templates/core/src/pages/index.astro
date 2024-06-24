@@ -3,27 +3,26 @@ import { client } from "../lib/client.ts";
 
 import { nodePageSchema } from "../lib/schemas/nodePageSchema";
 
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import BaseHead from "../components/BaseHead.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 
 // Can get a single element from a collection schema.
 // Can also use pick to refine schema to a subset of fields.
-const nodeSchema = nodePageSchema.element.pick({body: true})
+const nodeSchema = nodePageSchema.element.pick({ body: true });
 
-const node = nodeSchema.parse(await client.getResourceByPath('/'));
+const node = nodeSchema.parse(await client.getResourceByPath("/"));
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main set:html={node.body.processed}>
-		</main>
-		<Footer />
-	</body>
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <main set:html={node.body.processed} />
+    <Footer />
+  </body>
 </html>

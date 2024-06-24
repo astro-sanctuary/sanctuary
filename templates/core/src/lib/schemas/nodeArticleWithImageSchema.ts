@@ -1,4 +1,4 @@
-import { z } from 'astro:content';
+import { z } from "astro:content";
 
 export const nodeArticleWithImageSchema = z.array(
   z.object({
@@ -80,5 +80,5 @@ export const nodeArticleWithImageSchema = z.array(
     }),
     field_tags: z.array(z.unknown()),
     relationshipNames: z.array(z.string()),
-  })
+  }),
 );

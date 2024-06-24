@@ -8,7 +8,9 @@
     "build": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "generate-schema": "node --env-file=.env bin/generate-schema.mjs"
+    "generate-schema": "node --env-file=.env bin/generate-schema.mjs",
+    "prettier": "prettier .",
+    "prettier:fix": "prettier --write ."
   },
   "dependencies": {
     "@astrojs/check": "^0.7.0",
@@ -20,5 +22,9 @@
     "json-to-zod": "^1.1.2",
     "jsona": "^1.12.1",
     "typescript": "^5.4.5"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.2",
+    "prettier-plugin-astro": "^0.14.0"
   }
 }

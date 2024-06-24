@@ -1,8 +1,8 @@
 ---
 import { client } from "../lib/client.ts";
-import Layout from '../layouts/Article.astro';
-import { absoluteUrl } from '../lib/utils.ts';
-import { nodeArticleWithImageSchema } from '../lib/schemas/nodeArticleWithImageSchema.ts';
+import Layout from "../layouts/Article.astro";
+import { absoluteUrl } from "../lib/utils.ts";
+import { nodeArticleWithImageSchema } from "../lib/schemas/nodeArticleWithImageSchema.ts";
 
 const nodeSchema = nodeArticleWithImageSchema.element.pick({
   title: true,
@@ -11,13 +11,17 @@ const nodeSchema = nodeArticleWithImageSchema.element.pick({
   field_image: true,
 });
 // Ensure API response matches schema
-const node = nodeSchema.parse(await client.getResourceByPath('about', { queryString:'include=field_image'}));
+const node = nodeSchema.parse(
+  await client.getResourceByPath("about", {
+    queryString: "include=field_image",
+  }),
+);
 ---
 
 <Layout
-	title={node.title}
-	pubDate={new Date(node.created)}
-	heroImage={absoluteUrl(node.field_image.uri.url)}
+  title={node.title}
+  pubDate={new Date(node.created)}
+  heroImage={absoluteUrl(node.field_image.uri.url)}
   heroAlt={node.field_image.resourceIdObjMeta.alt}
   set:html={node.body.processed}
 />

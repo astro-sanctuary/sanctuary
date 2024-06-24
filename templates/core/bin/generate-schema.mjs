@@ -38,6 +38,6 @@ const collection = await client.getCollection(resourceType, { queryString });
 
 const schema = jsonToZod(collection).replace(
   "const schema",
-  `const ${schemaName}Schema`
+  `const ${schemaName}Schema`,
 );
 writeSchema(schema, `src/lib/schemas/${schemaName}Schema.ts`);

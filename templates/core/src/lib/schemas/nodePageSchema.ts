@@ -1,4 +1,4 @@
-import { z } from 'astro:content';
+import { z } from "astro:content";
 
 export const nodePageSchema = z.array(
   z.object({
@@ -44,5 +44,5 @@ export const nodePageSchema = z.array(
       resourceIdObjMeta: z.object({ drupal_internal__target_id: z.number() }),
     }),
     relationshipNames: z.array(z.string()),
-  })
+  }),
 );
