@@ -18,5 +18,6 @@ const node = nodeSchema.parse(await client.getResourceByPath('about', { queryStr
 	title={node.title}
 	pubDate={new Date(node.created)}
 	heroImage={absoluteUrl(node.field_image.uri.url)}
+  heroAlt={node.field_image.resourceIdObjMeta.alt}
   set:html={node.body.processed}
 />
