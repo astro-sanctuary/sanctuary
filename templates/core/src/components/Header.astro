@@ -1,8 +1,8 @@
 ---
-import { client } from "../lib/client.ts";
-import { menuItemsMainSchema } from "../lib/schemas/menuItemsMainSchema";
-import HeaderLink from "./HeaderLink.astro";
-import { SITE_TITLE } from "../consts";
+import { client } from "@lib/client.ts";
+import { menuItemsMainSchema } from "@lib/schemas/menuItemsMainSchema";
+import HeaderLink from "@components/HeaderLink.astro";
+import { SITE_TITLE } from "@/consts";
 
 const mainMenuSchema = menuItemsMainSchema;
 const mainMenu = mainMenuSchema.parse(
