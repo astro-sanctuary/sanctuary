@@ -1,15 +1,25 @@
 ---
+import { client } from "../lib/client.ts";
+import { menuItemsMainSchema } from "../lib/schemas/menuItemsMainSchema";
 import HeaderLink from "./HeaderLink.astro";
 import { SITE_TITLE } from "../consts";
+
+const mainMenuSchema = menuItemsMainSchema;
+const mainMenu = mainMenuSchema.parse(
+  await client.getCollection("menu_items--main"),
+);
 ---
 
 <header>
   <nav>
     <h2><a href="/">{SITE_TITLE}</a></h2>
     <div class="internal-links">
-      <HeaderLink href="/">Home</HeaderLink>
-      <HeaderLink href="/blog">Blog</HeaderLink>
-      <HeaderLink href="/about">About</HeaderLink>
+      {
+        mainMenu.map((item) => {
+          return <HeaderLink href={item.url}>{item.title}</HeaderLink>;
+        })
+      }
+      <HeaderLink href="/blog">Blog (Static)</HeaderLink>
     </div>
     <div class="social-links">
       <a href="https://m.webtoo.ls/@astro" target="_blank">
