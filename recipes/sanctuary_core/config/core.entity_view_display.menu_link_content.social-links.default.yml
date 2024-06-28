@@ -1,0 +1,27 @@
+uuid: a1edec81-ce28-45b4-95b6-8f60e4aa585c
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.menu_link_content.social-links.field_icon
+    - system.menu.social-links
+  module:
+    - iconify_icons
+id: menu_link_content.social-links.default
+targetEntityType: menu_link_content
+bundle: social-links
+mode: default
+content:
+  children:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_icon:
+    type: iconify_icon_formatter
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    weight: 2
+    region: content
+hidden: {  }

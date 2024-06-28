@@ -1,0 +1,8 @@
+uuid: 70edca04-c34f-486e-93fe-d8399af05708
+langcode: en
+status: true
+dependencies: {  }
+id: social-links
+label: 'Social Links'
+description: 'Social media links displayed as icons'
+locked: false

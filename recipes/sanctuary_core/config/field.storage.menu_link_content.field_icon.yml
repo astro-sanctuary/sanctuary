@@ -1,0 +1,19 @@
+uuid: 5ca62739-f403-40a5-88f6-496f731b4e87
+langcode: en
+status: true
+dependencies:
+  module:
+    - iconify_icons
+    - menu_link_content
+id: menu_link_content.field_icon
+field_name: field_icon
+entity_type: menu_link_content
+type: iconify_icon
+settings: {  }
+module: iconify_icons
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

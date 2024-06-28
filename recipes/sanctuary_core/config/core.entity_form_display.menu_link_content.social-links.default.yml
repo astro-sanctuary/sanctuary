@@ -1,0 +1,213 @@
+uuid: b8dde083-33eb-4f44-ab1e-805d2cdb5f5b
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.menu_link_content.social-links.field_icon
+    - system.menu.social-links
+  module:
+    - iconify_icons
+    - link
+    - menu_item_extras
+id: menu_link_content.social-links.default
+targetEntityType: menu_link_content
+bundle: social-links
+mode: default
+content:
+  field_icon:
+    type: iconify_icon_widget
+    weight: 1
+    region: content
+    settings:
+      collections:
+        mdi: mdi
+        fluent: 0
+        material-symbols-light: 0
+        material-symbols: 0
+        ic: 0
+        arcticons: 0
+        ph: 0
+        solar: 0
+        tabler: 0
+        openmoji: 0
+        game-icons: 0
+        hugeicons: 0
+        twemoji: 0
+        noto: 0
+        simple-icons: 0
+        fluent-emoji-flat: 0
+        fluent-emoji: 0
+        mingcute: 0
+        ri: 0
+        icon-park-outline: 0
+        icon-park: 0
+        carbon: 0
+        noto-v1: 0
+        whh: 0
+        bi: 0
+        streamline: 0
+        icon-park-solid: 0
+        icon-park-twotone: 0
+        healthicons: 0
+        emojione: 0
+        token-branded: 0
+        logos: 0
+        iconamoon: 0
+        fluent-mdl2: 0
+        token: 0
+        iconoir: 0
+        fluent-emoji-high-contrast: 0
+        la: 0
+        lets-icons: 0
+        lucide: 0
+        emojione-monotone: 0
+        fa6-solid: 0
+        ion: 0
+        vscode-icons: 0
+        pepicons-pop: 0
+        pepicons-print: 0
+        pepicons-pencil: 0
+        emojione-v1: 0
+        f7: 0
+        uil: 0
+        tdesign: 0
+        teenyicons: 0
+        cbi: 0
+        heroicons: 0
+        clarity: 0
+        mynaui: 0
+        mage: 0
+        fxemoji: 0
+        fa-solid: 0
+        jam: 0
+        file-icons: 0
+        ant-design: 0
+        cib: 0
+        bx: 0
+        si-glyph: 0
+        streamline-emojis: 0
+        devicon: 0
+        zmdi: 0
+        majesticons: 0
+        gg: 0
+        fa: 0
+        gravity-ui: 0
+        bxs: 0
+        memory: 0
+        octicon: 0
+        vaadin: 0
+        grommet-icons: 0
+        fontisto: 0
+        line-md: 0
+        marketeq: 0
+        devicon-plain: 0
+        cil: 0
+        flag: 0
+        flowbite: 0
+        basil: 0
+        icomoon-free: 0
+        fa6-brands: 0
+        eva: 0
+        pixelarticons: 0
+        cryptocurrency: 0
+        cryptocurrency-color: 0
+        ps: 0
+        codicon: 0
+        fa-brands: 0
+        akar-icons: 0
+        meteocons: 0
+        ci: 0
+        circle-flags: 0
+        system-uicons: 0
+        pepicons: 0
+        skill-icons: 0
+        oui: 0
+        pajamas: 0
+        gis: 0
+        guidance: 0
+        ooui: 0
+        ls: 0
+        dashicons: 0
+        typcn: 0
+        flat-color-icons: 0
+        entypo: 0
+        radix-icons: 0
+        prime: 0
+        subway: 0
+        el: 0
+        zondicons: 0
+        uim: 0
+        ep: 0
+        circum: 0
+        feather: 0
+        mdi-light: 0
+        foundation: 0
+        raphael: 0
+        charm: 0
+        fe: 0
+        flagpack: 0
+        eos-icons: 0
+        bitcoin-icons: 0
+        humbleicons: 0
+        icons8: 0
+        heroicons-outline: 0
+        heroicons-solid: 0
+        oi: 0
+        wi: 0
+        uiw: 0
+        uit: 0
+        maki: 0
+        rivet-icons: 0
+        gridicons: 0
+        wpf: 0
+        cif: 0
+        uis: 0
+        simple-line-icons: 0
+        mi: 0
+        mono-icons: 0
+        map: 0
+        fa6-regular: 0
+        weui: 0
+        vs: 0
+        academicons: 0
+        bxl: 0
+        fad: 0
+        fa-regular: 0
+        formkit: 0
+        medical-icon: 0
+        covid: 0
+        quill: 0
+        nimbus: 0
+        bpmn: 0
+        iwwa: 0
+        bytesize: 0
+        et: 0
+        flat-ui: 0
+        topcoat: 0
+        websymbol: 0
+        il: 0
+        entypo-social: 0
+        ei: 0
+        nonicons: 0
+        unjs: 0
+        gala: 0
+        svg-spinners: 0
+        brandico: 0
+        fontelico: 0
+        geo: 0
+    third_party_settings: {  }
+  title:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  view_mode:
+    type: menu_item_extras_view_mode_selector_select
+    weight: 2
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

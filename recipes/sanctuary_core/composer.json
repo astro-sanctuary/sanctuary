@@ -11,7 +11,9 @@
   ],
   "require": {
     "drupal/decoupled_router": "^2.0",
+    "drupal/iconify_icons": "^1.0",
     "drupal/jsonapi_menu_items": "^1.2",
-    "drupal/jsonapi_hypermedia": "^1.9"
+    "drupal/jsonapi_hypermedia": "^1.9",
+    "drupal/menu_item_extras": "^3.0"
   }
 }

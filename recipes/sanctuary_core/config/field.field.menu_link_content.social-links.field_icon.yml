@@ -1,0 +1,21 @@
+uuid: fa06705e-fc8a-4af5-948a-8dfc68f70da6
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.menu_link_content.field_icon
+    - system.menu.social-links
+  module:
+    - iconify_icons
+id: menu_link_content.social-links.field_icon
+field_name: field_icon
+entity_type: menu_link_content
+bundle: social-links
+label: Icon
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: iconify_icon
