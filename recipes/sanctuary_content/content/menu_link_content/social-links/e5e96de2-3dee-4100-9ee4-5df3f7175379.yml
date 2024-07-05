@@ -1,0 +1,35 @@
+_meta:
+  version: "1.0"
+  entity_type: menu_link_content
+  uuid: e5e96de2-3dee-4100-9ee4-5df3f7175379
+  bundle: social-links
+  default_langcode: en
+default:
+  enabled:
+    - value: true
+  title:
+    - value: Twitter
+  menu_name:
+    - value: social-links
+  link:
+    - uri: "https://twitter.com/astrodotbuild"
+      title: ""
+      options: {}
+  external:
+    - value: false
+  rediscover:
+    - value: false
+  weight:
+    - value: 1
+  expanded:
+    - value: false
+  revision_translation_affected:
+    - value: true
+  view_mode:
+    - value: default
+  field_icon:
+    - icon: "twitter (mdi)"
+      settings:
+        width: "50"
+        height: "50"
+        color: "#000000"

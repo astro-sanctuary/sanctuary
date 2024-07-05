@@ -1,0 +1,46 @@
+_meta:
+  version: '1.0'
+  entity_type: menu_link_content
+  uuid: 156d86a7-5fc8-423a-95b5-974e00e1f9cf
+  bundle: social-links
+  default_langcode: en
+default:
+  enabled:
+    -
+      value: true
+  title:
+    -
+      value: Mastadon
+  menu_name:
+    -
+      value: social-links
+  link:
+    -
+      uri: 'https://m.webtoo.ls/@astro'
+      title: ''
+      options: {  }
+  external:
+    -
+      value: false
+  rediscover:
+    -
+      value: false
+  weight:
+    -
+      value: 0
+  expanded:
+    -
+      value: false
+  revision_translation_affected:
+    -
+      value: true
+  view_mode:
+    -
+      value: default
+  field_icon:
+    -
+      icon: 'mastodon (mdi)'
+      settings:
+        width: '50'
+        height: '50'
+        color: '#000000'

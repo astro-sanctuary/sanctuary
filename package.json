@@ -6,7 +6,8 @@
   "scripts": {
     "dev:core": "pnpm --filter './templates/core' dev",
     "ddev:init": "./scripts/init-drupal.sh",
-    "ddev:destroy": "./scripts/destroy-drupal.sh"
+    "ddev:destroy": "./scripts/destroy-drupal.sh",
+    "ddev:reinstall": "./scripts/reinstall-drupal.sh"
   },
   "keywords": [],
   "author": "",
