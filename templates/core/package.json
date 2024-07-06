@@ -18,7 +18,9 @@
     "@astrojs/rss": "^4.0.6",
     "@astrojs/sitemap": "^3.1.6",
     "@drupal-api-client/json-api-client": "^1.0.1",
+    "@iconify-json/mdi": "^1.1.67",
     "astro": "^4.11.0",
+    "astro-icon": "^1.1.0",
     "json-to-zod": "^1.1.2",
     "jsona": "^1.12.1",
     "typescript": "^5.4.5"
