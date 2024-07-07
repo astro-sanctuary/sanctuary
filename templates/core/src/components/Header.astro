@@ -1,18 +1,13 @@
 ---
 import { client } from "@lib/client.ts";
 import { menuItemsMainSchema } from "@lib/schemas/menuItemsMainSchema";
-import { menuItemsSocialLinksSchema } from "@lib/schemas/menuItemsSocialLinksSchema";
 import HeaderLink from "@components/HeaderLink.astro";
-import { Icon } from "astro-icon/components";
+import SocialMenu from "@components/SocialMenu.astro";
 import { SITE_TITLE } from "@/consts";
 
 const mainMenuSchema = menuItemsMainSchema;
 const mainMenu = mainMenuSchema.parse(
   await client.getCollection("menu_items--main"),
-);
-
-const socialMenu = menuItemsSocialLinksSchema.parse(
-  await client.getCollection("menu_items--social-links"),
 );
 ---
 
@@ -27,20 +22,7 @@ const socialMenu = menuItemsSocialLinksSchema.parse(
       }
       <HeaderLink href="/blog">Blog (Static)</HeaderLink>
     </div>
-    <div class="social-links">
-      {
-        socialMenu.map((item) => {
-          const icon = item.field_icon.icon.replace(/\s*\(.*?\)/g, "");
-          const set = item.field_icon.icon.match(/\((.*?)\)/);
-          const name = `${set ? `${set[1]}:` : ":"}${icon}`;
-          return (
-            <a href={item.url} target="_blank">
-              <Icon name={name} width={40} height={40} />
-            </a>
-          );
-        })
-      }
-    </div>
+    <SocialMenu />
   </nav>
 </header>
 <style>
@@ -74,12 +56,15 @@ const socialMenu = menuItemsSocialLinksSchema.parse(
     text-decoration: none;
     border-bottom-color: var(--accent);
   }
-  .social-links,
-  .social-links a {
+  nav :global(.social-links),
+  nav :global(.social-links a) {
     display: flex;
+    padding: 0 0.5em;
+    color: var(--black);
+    text-decoration: none;
   }
   @media (max-width: 720px) {
-    .social-links {
+    :global(.social-links) {
       display: none;
     }
   }
