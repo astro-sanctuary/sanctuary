@@ -1,0 +1,17 @@
+uuid: 08e616d3-5b12-42d2-992c-872a4230fc39
+langcode: en
+status: true
+dependencies: {}
+id: sanctuary_settings
+label: "Sanctuary settings"
+token: false
+context:
+  show_warning: true
+  group:
+    language: false
+  fallback:
+    language: ""
+menu:
+  path: /admin/config/services/sanctuary
+  weight: 0
+  description: "Settings and global variables for the Sanctuary starter kit"

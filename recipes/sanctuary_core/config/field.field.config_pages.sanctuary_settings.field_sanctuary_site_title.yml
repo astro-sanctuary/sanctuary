@@ -1,0 +1,19 @@
+uuid: b46f29a9-18e2-46a2-92c1-b2d421cac1d5
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.sanctuary_settings
+    - field.storage.config_pages.field_sanctuary_site_title
+id: config_pages.sanctuary_settings.field_sanctuary_site_title
+field_name: field_sanctuary_site_title
+entity_type: config_pages
+bundle: sanctuary_settings
+label: 'Site Title'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

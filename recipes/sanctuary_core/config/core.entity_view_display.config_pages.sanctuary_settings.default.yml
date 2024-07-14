@@ -1,0 +1,39 @@
+uuid: 9b1cce4a-9b0b-40f6-b57e-0f70554d013b
+langcode: en
+status: true
+dependencies:
+  config:
+    - config_pages.type.sanctuary_settings
+    - field.field.config_pages.sanctuary_settings.field_sanctuary_copyright
+    - field.field.config_pages.sanctuary_settings.field_sanctuary_site_description
+    - field.field.config_pages.sanctuary_settings.field_sanctuary_site_title
+id: config_pages.sanctuary_settings.default
+targetEntityType: config_pages
+bundle: sanctuary_settings
+mode: default
+content:
+  field_sanctuary_copyright:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 2
+    region: content
+  field_sanctuary_site_description:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 1
+    region: content
+  field_sanctuary_site_title:
+    type: string
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    weight: 0
+    region: content
+hidden: {  }
