@@ -5,3 +5,9 @@ type: "Site"
 # Ideally this would have the core recipe as a dependency, but currently we
 # must run this individually after the core recipe and a cache clear
 # - sanctuary_core
+
+config:
+  actions:
+    system.site:
+      simple_config_update:
+        page.front: "/home"

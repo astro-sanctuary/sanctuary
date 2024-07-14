@@ -4,14 +4,9 @@ type: "Site"
 
 install:
   - jsonapi
+  - config_pages
   - decoupled_router
   - jsonapi_menu_items
   - jsonapi_menu_items_hypermedia
   - iconify_icons
   - menu_item_extras
-
-config:
-  actions:
-    system.site:
-      simple_config_update:
-        page.front: "/home"
