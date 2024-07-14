@@ -1,0 +1,21 @@
+_meta:
+  version: '1.0'
+  entity_type: config_pages
+  uuid: e97d1508-d76b-4526-8b43-74f50e45ce9f
+  bundle: sanctuary_settings
+default:
+  label:
+    -
+      value: 'Sanctuary Settings'
+  context:
+    -
+      value: 'a:0:{}'
+  field_sanctuary_copyright:
+    -
+      value: 'Your name here. All rights reserved.'
+  field_sanctuary_site_description:
+    -
+      value: 'Welcome to my website!'
+  field_sanctuary_site_title:
+    -
+      value: 'Drupal Sanctuary'
