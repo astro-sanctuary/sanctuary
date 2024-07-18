@@ -1,11 +1,14 @@
 ---
+import { getSettings } from "@lib/settings";
 import SocialMenu from "@components/SocialMenu.astro";
+
+const settings = await getSettings();
 
 const today = new Date();
 ---
 
 <footer>
-  &copy; {today.getFullYear()} Your name here. All rights reserved.
+  &copy; {`${today.getFullYear()} ${settings.field_sanctuary_copyright}`}
   <SocialMenu />
 </footer>
 <style>

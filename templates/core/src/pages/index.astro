@@ -4,7 +4,9 @@ import { nodePageSchema } from "@lib/schemas/nodePageSchema";
 import BaseHead from "@components/BaseHead.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
-import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
+import { getSettings } from "@lib/settings";
+
+const settings = await getSettings();
 
 // Can get a single element from a collection schema.
 // Can also use pick to refine schema to a subset of fields.
@@ -16,7 +18,10 @@ const node = nodeSchema.parse(await client.getResourceByPath("/"));
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    <BaseHead
+      title={settings.field_sanctuary_site_title}
+      description={settings.field_sanctuary_site_description}
+    />
   </head>
   <body>
     <Header />

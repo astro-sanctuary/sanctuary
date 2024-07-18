@@ -3,7 +3,9 @@ import { client } from "@lib/client.ts";
 import { menuItemsMainSchema } from "@lib/schemas/menuItemsMainSchema";
 import HeaderLink from "@components/HeaderLink.astro";
 import SocialMenu from "@components/SocialMenu.astro";
-import { SITE_TITLE } from "@/consts";
+import { getSettings } from "@lib/settings";
+
+const settings = await getSettings();
 
 const mainMenuSchema = menuItemsMainSchema;
 const mainMenu = mainMenuSchema.parse(
@@ -13,7 +15,7 @@ const mainMenu = mainMenuSchema.parse(
 
 <header>
   <nav>
-    <h2><a href="/">{SITE_TITLE}</a></h2>
+    <h2><a href="/">{settings.field_sanctuary_site_title}</a></h2>
     <div class="internal-links">
       {
         mainMenu.map((item) => {
