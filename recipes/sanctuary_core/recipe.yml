@@ -10,3 +10,12 @@ install:
   - jsonapi_menu_items_hypermedia
   - iconify_icons
   - menu_item_extras
+
+config:
+  actions:
+    # Set permissions for anonymous role.
+    user.role.anonymous:
+      ensure_exists:
+        id: anonymous
+      grantPermissions:
+        - "view sanctuary_settings config page entity"
