@@ -1,0 +1,27 @@
+_meta:
+  version: '1.0'
+  entity_type: file
+  uuid: 5583faaa-cb8e-45bb-92ff-a2876ee30c0a
+  default_langcode: en
+default:
+  uid:
+    -
+      target_id: 1
+  filename:
+    -
+      value: blog-placeholder-2.jpg
+  uri:
+    -
+      value: 'public://2024-07/blog-placeholder-2.jpg'
+  filemime:
+    -
+      value: image/jpeg
+  filesize:
+    -
+      value: 33136
+  status:
+    -
+      value: true
+  created:
+    -
+      value: 1721487861
