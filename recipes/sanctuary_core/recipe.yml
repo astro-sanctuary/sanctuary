@@ -8,6 +8,7 @@ install:
   - decoupled_router
   - jsonapi_menu_items
   - jsonapi_menu_items_hypermedia
+  - jsonapi_views
   - iconify_icons
   - menu_item_extras
 
