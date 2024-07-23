@@ -21,6 +21,7 @@
     "@iconify-json/mdi": "^1.1.67",
     "astro": "^4.11.0",
     "astro-icon": "^1.1.0",
+    "drupal-jsonapi-params": "^2.3.1",
     "json-to-zod": "^1.1.2",
     "jsona": "^1.12.1",
     "typescript": "^5.4.5"
