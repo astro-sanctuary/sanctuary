@@ -1,4 +1,6 @@
 ---
+import { Image } from "astro:assets";
+
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
@@ -68,7 +70,12 @@ const { title, description, pubDate, updatedDate, heroImage, heroAlt } =
         <div class="hero-image">
           {
             heroImage && (
-              <img width={1020} height={510} src={heroImage} alt={heroAlt} />
+              <Image
+                width={1020}
+                height={510}
+                src={heroImage}
+                alt={heroAlt ? heroAlt : ""}
+              />
             )
           }
         </div>

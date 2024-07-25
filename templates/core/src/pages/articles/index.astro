@@ -1,5 +1,6 @@
 ---
 import { DrupalJsonApiParams } from "drupal-jsonapi-params";
+import { Image } from "astro:assets";
 
 import { client } from "@lib/client.ts";
 import { getSettings } from "@lib/settings";
@@ -109,7 +110,7 @@ const articles = nodeArticleWithImageSchema.parse(
               return (
                 <li>
                   <a href={article.path.alias}>
-                    <img
+                    <Image
                       width={720}
                       height={360}
                       src={absoluteUrl(article.field_image.uri.url)}
