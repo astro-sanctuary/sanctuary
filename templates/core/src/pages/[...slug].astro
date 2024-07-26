@@ -1,22 +1,24 @@
 ---
 import { client } from "@lib/client.ts";
 import { nodeArticleWithImageSchema } from "@/lib/schemas/nodeArticleWithImageSchema.ts";
-import { absoluteUrl } from "@/lib/utils.ts";
+import { absoluteUrl, setEdgeCacheHeaders } from "@/lib/utils.ts";
 import Layout from "@/layouts/Article.astro";
 
-export async function getStaticPaths() {
-  const articles = nodeArticleWithImageSchema.parse(
-    await client.getCollection("node--article", {
-      queryString: "include=field_image",
-    }),
-  );
-  return articles.map((article) => ({
-    params: { slug: article.path.alias },
-    props: article,
-  }));
+const { slug } = Astro.params;
+if (!slug) {
+  return Astro.redirect("/404");
 }
 
-const node = Astro.props;
+const node = nodeArticleWithImageSchema.element.parse(
+  await client.getResourceByPath(slug, {
+    queryString: "include=field_image",
+  }),
+);
+if (!node?.id) {
+  return Astro.redirect("/404");
+}
+
+setEdgeCacheHeaders(Astro.response.headers);
 ---
 
 <Layout

@@ -4,7 +4,7 @@ import { Image } from "astro:assets";
 
 import { client } from "@lib/client.ts";
 import { getSettings } from "@lib/settings";
-import { absoluteUrl } from "@/lib/utils.ts";
+import { absoluteUrl, setEdgeCacheHeaders } from "@/lib/utils.ts";
 import { nodeArticleWithImageSchema } from "@/lib/schemas/nodeArticleWithImageSchema.ts";
 import BaseHead from "@/components/BaseHead.astro";
 import Header from "@/components/Header.astro";
@@ -21,6 +21,8 @@ const articles = nodeArticleWithImageSchema.parse(
     queryString: params.getQueryString(),
   }),
 );
+
+setEdgeCacheHeaders(Astro.response.headers);
 ---
 
 <!doctype html>
