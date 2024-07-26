@@ -1,0 +1,28 @@
+---
+import { client } from "@lib/client.ts";
+import { nodeArticleWithImageSchema } from "@/lib/schemas/nodeArticleWithImageSchema.ts";
+import { absoluteUrl } from "@/lib/utils.ts";
+import Layout from "@/layouts/Article.astro";
+
+export async function getStaticPaths() {
+  const articles = nodeArticleWithImageSchema.parse(
+    await client.getCollection("node--article", {
+      queryString: "include=field_image",
+    }),
+  );
+  return articles.map((article) => ({
+    params: { slug: article.path.alias },
+    props: article,
+  }));
+}
+
+const node = Astro.props;
+---
+
+<Layout
+  title={node.title}
+  pubDate={new Date(node.created)}
+  heroImage={absoluteUrl(node.field_image.uri.url)}
+  heroAlt={node.field_image.resourceIdObjMeta.alt}
+  set:html={node.body.processed}
+/>
