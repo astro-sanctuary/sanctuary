@@ -1,0 +1,20 @@
+{
+  "name": "sanctuary-toolbar",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./sanctuary-toolbar.ts",
+  "module": "./sanctuary-toolbar.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "app.ts",
+    "sanctuary-toolbar.ts"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "astro": "^4.11.0"
+  }
+}
