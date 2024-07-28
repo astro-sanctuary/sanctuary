@@ -5,13 +5,16 @@ import BaseHead from "@components/BaseHead.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import { getSettings } from "@lib/settings";
-import { setEdgeCacheHeaders } from "@/lib/utils.ts";
+import { absoluteUrl, setEdgeCacheHeaders } from "@/lib/utils.ts";
 
 const settings = await getSettings();
 
 // Can get a single element from a collection schema.
 // Can also use pick to refine schema to a subset of fields.
-const nodeSchema = nodePageSchema.element.pick({ body: true });
+const nodeSchema = nodePageSchema.element.pick({
+  body: true,
+  drupal_internal__nid: true,
+});
 
 const node = nodeSchema.parse(await client.getResourceByPath("/"));
 
@@ -28,7 +31,10 @@ setEdgeCacheHeaders(Astro.response.headers);
   </head>
   <body>
     <Header />
-    <main set:html={node.body.processed} />
+    <main
+      data-drupal-edit={absoluteUrl(`/node/${node.drupal_internal__nid}/edit`)}
+      set:html={node.body.processed}
+    />
     <Footer />
   </body>
 </html>
