@@ -5,13 +5,15 @@ import BaseHead from "@components/BaseHead.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
 import { getSettings } from "@lib/settings";
-import { absoluteUrl, setEdgeCacheHeaders } from "@/lib/utils.ts";
+import { setEdgeCacheHeaders } from "@/lib/utils.ts";
+import { getToolbarProps } from "@/lib/getToolbarProps.ts";
 
 const settings = await getSettings();
 
 // Can get a single element from a collection schema.
 // Can also use pick to refine schema to a subset of fields.
 const nodeSchema = nodePageSchema.element.pick({
+  title: true,
   body: true,
   drupal_internal__nid: true,
 });
@@ -32,7 +34,7 @@ setEdgeCacheHeaders(Astro.response.headers);
   <body>
     <Header />
     <main
-      data-drupal-edit={absoluteUrl(`/node/${node.drupal_internal__nid}/edit`)}
+      {...getToolbarProps(node)}
       set:html={node.body.processed}
     />
     <Footer />
