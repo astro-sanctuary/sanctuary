@@ -2,6 +2,22 @@ import { defineToolbarApp } from "astro/toolbar";
 import { render } from "preact";
 import { html } from "htm/preact";
 
+// Re-calculate highlights on resize.
+// Should we do something similar for mutationObserver?
+const resizeObserver = new ResizeObserver(() => {
+  const content = document.querySelectorAll<HTMLElement>("[data-sanctuary]");
+  const highlights = document.querySelectorAll<HTMLElement>(
+    ".sanctuary-highlight",
+  );
+  for (let i = 0; i < content.length; i++) {
+    const rect = content[i].getBoundingClientRect();
+    highlights[i].style.width = `${rect.width}px`;
+    highlights[i].style.height = `${rect.height}px`;
+    highlights[i].style.top = `${rect.top}px`;
+    highlights[i].style.left = `${rect.left}px`;
+  }
+});
+
 export default defineToolbarApp({
   init(canvas) {
     const windowStyle = `left: initial;
@@ -15,18 +31,23 @@ export default defineToolbarApp({
 
     const content = document.querySelectorAll<HTMLElement>("[data-sanctuary]");
 
+    // TODO: Pick up:
+    // Only highlight on hover. Disable highlights when toolbar toggled off.
     render(
       html`<astro-dev-toolbar-window style=${windowStyle}>
         <h2>Sanctuary Toolbar</h2>
         ${Array.from(content, (element) => {
-          // highlight them element
+          // highlight the element
           const rect = element.getBoundingClientRect();
           const style = `top: ${rect.top}px;
             left: ${rect.left}px;
             width: ${rect.width}px;
             height: ${rect.height}px;`;
           render(
-            html`<astro-dev-toolbar-highlight style=${style} />`,
+            html`<astro-dev-toolbar-highlight
+              class="sanctuary-highlight"
+              style=${style}
+            />`,
             document.body,
           );
           // List an entry for the element in the toolbar window.
@@ -40,5 +61,7 @@ export default defineToolbarApp({
       </astro-dev-toolbar-window>`,
       canvas,
     );
+
+    resizeObserver.observe(document.body);
   },
 });
