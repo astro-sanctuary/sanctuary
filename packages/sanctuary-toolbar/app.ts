@@ -19,7 +19,7 @@ const resizeObserver = new ResizeObserver(() => {
 });
 
 export default defineToolbarApp({
-  init(canvas) {
+  init(canvas, app) {
     const windowStyle = `left: initial;
       top: 8px;
       right: 8px;
@@ -31,8 +31,6 @@ export default defineToolbarApp({
 
     const content = document.querySelectorAll<HTMLElement>("[data-sanctuary]");
 
-    // TODO: Pick up:
-    // Only highlight on hover. Disable highlights when toolbar toggled off.
     render(
       html`<astro-dev-toolbar-window style=${windowStyle}>
         <h2>Sanctuary Toolbar</h2>
@@ -42,7 +40,9 @@ export default defineToolbarApp({
           const style = `top: ${rect.top}px;
             left: ${rect.left}px;
             width: ${rect.width}px;
-            height: ${rect.height}px;`;
+            height: ${rect.height}px;
+            display: none;`;
+
           render(
             html`<astro-dev-toolbar-highlight
               class="sanctuary-highlight"
@@ -62,6 +62,19 @@ export default defineToolbarApp({
       canvas,
     );
 
-    resizeObserver.observe(document.body);
+    // Set up and tear down highlighted elements when the toolbar is toggled.
+    app.onToggled(({ state }) => {
+      const highlights = document.querySelectorAll<HTMLElement>(
+        ".sanctuary-highlight",
+      );
+      highlights.forEach((highlight) => {
+        highlight.style.display = state ? "block" : "none";
+      });
+      if (state) {
+        resizeObserver.observe(document.body);
+      } else {
+        resizeObserver.unobserve(document.body);
+      }
+    });
   },
 });
