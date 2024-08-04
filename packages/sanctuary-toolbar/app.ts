@@ -54,9 +54,10 @@ export default defineToolbarApp({
           const props = JSON.parse(
             element.getAttribute("data-sanctuary") || "",
           );
-          return html`<p>
-            ${props.title}: <a href=${props.edit} target="_blank">Edit</a>
-          </p>`;
+          // TODO - try to add icon
+          return html`<astro-dev-toolbar-card link=${props.edit}>
+            ${props.title}
+          </astro-dev-toolbar-card>`;
         })}
       </astro-dev-toolbar-window>`,
       canvas,

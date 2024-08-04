@@ -27,14 +27,15 @@ export const nodeArticleWithImageSchema = z.array(
       processed: z.string(),
       summary: z.string(),
     }),
-    comment: z.object({
-      status: z.number(),
-      cid: z.null(),
-      last_comment_timestamp: z.null(),
-      last_comment_name: z.null(),
-      last_comment_uid: z.null(),
-      comment_count: z.null(),
-    }),
+    // TODO: Add comments back to schema
+    // comment: z.object({
+    //   status: z.number(),
+    //   cid: z.null(),
+    //   last_comment_timestamp: z.null(),
+    //   last_comment_name: z.null(),
+    //   last_comment_uid: z.null(),
+    //   comment_count: z.null(),
+    // }),
     links: z.object({ self: z.object({ href: z.string() }) }),
     node_type: z.object({
       type: z.string(),

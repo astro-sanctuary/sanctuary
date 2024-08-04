@@ -1,4 +1,6 @@
 ---
+import { ViewTransitions } from "astro:transitions";
+
 // Import the global.css file here so that it is included on
 // all pages through the use of the <BaseHead /> component.
 import "../styles/global.css";
@@ -57,3 +59,18 @@ const { title, description, image = "/blog-placeholder-1.jpg" } = Astro.props;
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+<ViewTransitions />
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    if (window && window.top !== window.self) {
+      const path = window.location.pathname;
+      // TODO - only sync if the path exists in Drupal
+      window.parent.postMessage(
+        { type: "DECOUPLED_PREVIEW_IFRAME_ROUTE_SYNC", path },
+        import.meta.env.PUBLIC_DRUPAL_BASE_URL,
+      );
+    }
+  });
+</script>

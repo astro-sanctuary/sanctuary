@@ -5,6 +5,7 @@ import sitemap from "@astrojs/sitemap";
 import icon from "astro-icon";
 import node from "@astrojs/node";
 import sanctuaryToolbar from "sanctuary-toolbar";
+
 const { IMAGE_DOMAIN } = loadEnv(process.env.NODE_ENV, process.cwd(), "");
 
 // https://astro.build/config
