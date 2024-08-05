@@ -6,9 +6,10 @@ set -e
 # Create DDEV project
 mkdir drupal
 cd drupal
-ddev config --project-name=sanctuary --project-type=drupal10 --docroot=web --create-docroot
+ddev config --project-name=sanctuary --project-type=drupal --docroot=web --php-version=8.3 --create-docroot
 ddev start
-ddev composer create drupal/recommended-project
+# Remove version constraint to use Drupal 11 once menu item extras upgrades
+ddev composer create drupal/recommended-project:^10
 
 # Prevent composer scaffolding from overwriting development.services.yml
 ddev composer config --json extra.drupal-scaffold.file-mapping '{"[web-root]/sites/development.services.yml": false}'
@@ -18,6 +19,12 @@ ddev composer config allow-plugins.ewcomposer/unpack true -n
 # Add repositories
 ddev composer config repositories.unpack vcs https://gitlab.ewdev.ca/yonas.legesse/drupal-recipe-unpack.git
 ddev composer config repositories.recipe path web/recipes/sanctuary_core
+
+# Open up CORS for local development
+cat ../scripts/config/enable-local-settings.php >> web/sites/default/settings.php
+cp web/sites/example.settings.local.php web/sites/default/settings.local.php
+cp ../scripts/config/development.services.yml web/sites/development.services.yml
+mkdir config
 
 # Add recipies
 cp -a ../recipes/. web/recipes

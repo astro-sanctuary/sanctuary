@@ -5,6 +5,7 @@ type: "Site"
 install:
   - jsonapi
   - config_pages
+  - decoupled_preview_iframe
   - decoupled_router
   - jsonapi_menu_items
   - jsonapi_menu_items_hypermedia
@@ -20,3 +21,6 @@ config:
         id: anonymous
       grantPermissions:
         - "view sanctuary_settings config page entity"
+    system.theme:
+      simple_config_update:
+        default: "claro"

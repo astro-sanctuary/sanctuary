@@ -11,6 +11,7 @@
   ],
   "require": {
     "drupal/config_pages": "^2.15",
+    "drupal/decoupled_preview_iframe": "^1.0",
     "drupal/decoupled_router": "^2.0",
     "drupal/iconify_icons": "^1.0",
     "drupal/jsonapi_menu_items": "^1.2",
