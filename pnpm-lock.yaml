@@ -37,6 +37,9 @@ importers:
       '@astrojs/sitemap':
         specifier: ^3.1.6
         version: 3.1.6
+      '@drupal-api-client/decoupled-router-client':
+        specifier: ^1.1.0
+        version: 1.1.0
       '@drupal-api-client/json-api-client':
         specifier: ^1.0.1
         version: 1.0.1
@@ -266,8 +269,14 @@ packages:
   '@drupal-api-client/api-client@1.0.0':
     resolution: {integrity: sha512-hZa6C/0Gup/JsWoMa5BIefq1dAfVVf9rzZXBvqVZnzl5pIIoL2oCKfLha3F/Co39DDWmZLpqTL+oqTloM/031g==}
 
+  '@drupal-api-client/api-client@1.1.0':
+    resolution: {integrity: sha512-5H7KBjjN1DrmPlVCPqyBiaeZcJRaJMGGEm7WfViN6yW5NLkHFqnGjj5G28CWUV9CGw+x5nzTiovKuXXXlHIDAA==}
+
   '@drupal-api-client/decoupled-router-client@1.0.0':
     resolution: {integrity: sha512-19zFBvHSESZ/mAGEM1IuzHWOXhshd+j8S/qLoWRz3UCMAk/wZj9GsKIBk28MUFAh29coTnvXq83abx89n63TZA==}
+
+  '@drupal-api-client/decoupled-router-client@1.1.0':
+    resolution: {integrity: sha512-xeMEUCVy8OHcrDrqrmRTLXtc3rhF/MjvJMmGhfwOxHs5EDEMy7sJKPMFmIhZ579130CyPsn7NeNcmrrYkEaM6w==}
 
   '@drupal-api-client/json-api-client@1.0.1':
     resolution: {integrity: sha512-izhurYOLfQ99A5VB7mkEq67ZBERiZpyyVMthDR6rHxMeI++diHsRiyVxvaRr96jcoQBN8BJxJzCw7F7QGZ/t1w==}
@@ -2942,9 +2951,18 @@ snapshots:
     dependencies:
       uint8array-extras: 0.5.1
 
+  '@drupal-api-client/api-client@1.1.0':
+    dependencies:
+      nanostores: 0.10.3
+      uint8array-extras: 0.5.1
+
   '@drupal-api-client/decoupled-router-client@1.0.0':
     dependencies:
       '@drupal-api-client/api-client': 1.0.0
+
+  '@drupal-api-client/decoupled-router-client@1.1.0':
+    dependencies:
+      '@drupal-api-client/api-client': 1.1.0
 
   '@drupal-api-client/json-api-client@1.0.1':
     dependencies:

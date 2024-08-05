@@ -63,14 +63,37 @@ const { title, description, image = "/blog-placeholder-1.jpg" } = Astro.props;
 <ViewTransitions />
 
 <script>
-  document.addEventListener("astro:page-load", () => {
+  import {
+    isResolved,
+    isRaw,
+    type DecoupledRouterResponse,
+    type RawDecoupledRouterResponse,
+  } from "@drupal-api-client/decoupled-router-client";
+  import { router } from "@lib/client.ts";
+
+  document.addEventListener("astro:page-load", async () => {
     if (window && window.top !== window.self) {
       const path = window.location.pathname;
+      let translatedPath: DecoupledRouterResponse | RawDecoupledRouterResponse;
+      try {
+        translatedPath = await router.translatePath(path);
+      } catch (error) {
+        return;
+      }
+      const drupalPath =
+        !isRaw(translatedPath) && isResolved(translatedPath)
+          ? translatedPath.resolved.replace(
+              import.meta.env.PUBLIC_DRUPAL_BASE_URL,
+              "",
+            )
+          : "";
       // TODO - only sync if the path exists in Drupal
-      window.parent.postMessage(
-        { type: "DECOUPLED_PREVIEW_IFRAME_ROUTE_SYNC", path },
-        import.meta.env.PUBLIC_DRUPAL_BASE_URL,
-      );
+      if (path === drupalPath) {
+        window.parent.postMessage(
+          { type: "DECOUPLED_PREVIEW_IFRAME_ROUTE_SYNC", path },
+          import.meta.env.PUBLIC_DRUPAL_BASE_URL,
+        );
+      }
     }
   });
 </script>
