@@ -1,19 +1,57 @@
 ---
-import { client } from "@lib/client.ts";
+import { type ZodArray } from "zod";
+import { isResolved, isRaw } from "@drupal-api-client/decoupled-router-client";
+import { client, router } from "@lib/client.ts";
 import { nodeArticleWithImageSchema } from "@/lib/schemas/nodeArticleWithImageSchema.ts";
-import { absoluteUrl, setEdgeCacheHeaders } from "@/lib/utils.ts";
-import Layout from "@/layouts/Article.astro";
+import { nodePageSchema } from "@lib/schemas/nodePageSchema";
+import { setEdgeCacheHeaders } from "@/lib/utils.ts";
+import Article from "@/layouts/Article.astro";
+import Page from "@/layouts/Page.astro";
 
 const { slug } = Astro.params;
 if (!slug) {
   return Astro.redirect("/404");
 }
 
-const node = nodeArticleWithImageSchema.element.parse(
-  await client.getResourceByPath(slug, {
-    queryString: "include=field_image",
-  }),
-);
+const translatedPath = await router.translatePath(slug);
+
+// These type guards should be easier to use...
+if (!isRaw(translatedPath) && !isResolved(translatedPath)) {
+  return Astro.redirect("/404");
+}
+
+const schemas: { [key: string]: ZodArray } = {
+  "node--article": nodeArticleWithImageSchema,
+  "node--page": nodePageSchema,
+};
+// Improve value type here for Astro function
+const components: { [key: string]: any } = {
+  "node--article": Article,
+  "node--page": Page,
+};
+const queryStrings: { [key: string]: string } = {
+  "node--article": "include=field_image",
+  "node--page": "",
+};
+
+const resourceType = !isRaw(translatedPath)
+  ? translatedPath.jsonapi.resourceName
+  : "";
+const id =
+  !isRaw(translatedPath) &&
+  isResolved(translatedPath) &&
+  translatedPath.entity?.uuid
+    ? translatedPath.entity.uuid
+    : "";
+const schema = schemas[resourceType];
+const Template = components[resourceType];
+const queryString = queryStrings[resourceType];
+
+const resource = await client.getResource(resourceType, id, {
+  queryString,
+});
+
+const node = schema.element.parse(resource);
 if (!node?.id) {
   return Astro.redirect("/404");
 }
@@ -21,10 +59,4 @@ if (!node?.id) {
 setEdgeCacheHeaders(Astro.response.headers);
 ---
 
-<Layout
-  title={node.title}
-  pubDate={new Date(node.created)}
-  heroImage={absoluteUrl(node.field_image.uri.url)}
-  heroAlt={node.field_image.resourceIdObjMeta.alt}
-  set:html={node.body.processed}
-/>
+<Template node={node} set:html={node.body.processed} />

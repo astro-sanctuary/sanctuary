@@ -15,7 +15,6 @@ export const nodePageSchema = z.array(
     promote: z.boolean(),
     sticky: z.boolean(),
     default_langcode: z.boolean(),
-    revision_translation_affected: z.null(),
     path: z.object({
       alias: z.string(),
       pid: z.number(),
