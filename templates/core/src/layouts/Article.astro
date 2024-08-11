@@ -19,6 +19,10 @@ const settings = await getSettings();
 const heroImage = absoluteUrl(node.field_image.uri.url);
 const heroAlt = node.field_image.resourceIdObjMeta.alt;
 const pubDate = new Date(node.created);
+const updatedDate =
+  node?.changed && node.created !== node.changed
+    ? new Date(node.changed)
+    : undefined;
 ---
 
 <html lang="en">
@@ -88,13 +92,13 @@ const pubDate = new Date(node.created);
           <div class="title">
             <div class="date">
               <FormattedDate date={pubDate} />
-              <!-- {
+              {
                 updatedDate && (
                   <div class="last-updated-on">
                     Last updated on <FormattedDate date={updatedDate} />
                   </div>
                 )
-              } -->
+              }
             </div>
             <h1>{node.title}</h1>
             <hr />
