@@ -23,7 +23,7 @@ const pubDate = new Date(node.created);
   <head>
     <BaseHead
       title={node.title}
-      description={node.description ? node.description : ""}
+      description={node.body.summary ? node.body.summary : ""}
     />
     <style>
       main {

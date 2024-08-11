@@ -1,0 +1,20 @@
+---
+import Article from "@/layouts/Article.astro";
+import Page from "@/layouts/Page.astro";
+
+type Props = {
+  resourceType: string;
+  node: any;
+};
+
+const { node, resourceType } = Astro.props;
+
+const components: { [key: string]: typeof Article | typeof Page } = {
+  "node--article": Article,
+  "node--page": Page,
+};
+
+const Template = components[resourceType];
+---
+
+<Template node={node} set:html={node.body.processed} />

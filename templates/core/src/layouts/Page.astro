@@ -17,7 +17,7 @@ const { node } = Astro.props;
   <head>
     <BaseHead
       title={node.title}
-      description={node.description ? node.description : ""}
+      description={node.body.summary ? node.body.summary : ""}
     />
   </head>
 
