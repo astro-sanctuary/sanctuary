@@ -5,18 +5,21 @@ import BaseHead from "@/components/BaseHead.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import { getToolbarProps } from "@/lib/getToolbarProps.ts";
+import { getSettings } from "@lib/settings";
 
 type Props = {
   node: z.infer<typeof nodePageSchema.element>;
 };
 
 const { node } = Astro.props;
+
+const settings = await getSettings();
 ---
 
 <html lang="en">
   <head>
     <BaseHead
-      title={node.title}
+      title={`${node.title} | ${settings.field_sanctuary_site_title}`}
       description={node.body.summary ? node.body.summary : ""}
     />
   </head>
