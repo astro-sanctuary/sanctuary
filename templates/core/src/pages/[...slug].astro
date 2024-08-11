@@ -23,10 +23,7 @@ const schemas: {
 
 // Return a 404 if we can't translate a path
 const { slug } = Astro.params;
-if (!slug) {
-  return Astro.redirect("/404");
-}
-const translatedPath = await router.translatePath(slug);
+const translatedPath = await router.translatePath(slug ? slug : "/");
 // These type guards should be easier to use...
 if (!isRaw(translatedPath) && !isResolved(translatedPath)) {
   return Astro.redirect("/404");
