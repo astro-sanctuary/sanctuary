@@ -36,6 +36,18 @@ export default defineToolbarApp({
       }
     };
 
+    const toggleHighlight = (e) => {
+      const relatedHighlight = document.querySelector(
+        `.sanctuary-highlight[data-index="${e.target.dataset.index}"]`,
+      );
+      if (relatedHighlight) {
+        const display = (relatedHighlight as HTMLElement).style.display;
+        display === "block"
+          ? ((relatedHighlight as HTMLElement).style.display = "none")
+          : ((relatedHighlight as HTMLElement).style.display = "block");
+      }
+    };
+
     render(
       html`
         ${Array.from(content, (element, index) => {
@@ -67,7 +79,10 @@ export default defineToolbarApp({
                 class="sanctuary-button"
                 href="https://sanctuary.ddev.site/node/2/edit"
                 onClick=${postMessage}
+                onMouseEnter=${toggleHighlight}
+                onMouseLeave=${toggleHighlight}
                 style=${buttonStyle}
+                data-index=${index}
               >
                 <astro-dev-toolbar-icon
                   icon="gear"
@@ -78,7 +93,7 @@ export default defineToolbarApp({
               <astro-dev-toolbar-highlight
                 class="sanctuary-highlight"
                 style=${highlightStyle}
-                onMouseOut=${(e) => (e.target.style.display = "none")}
+                onMouseLeave=${(e) => (e.target.style.display = "none")}
                 data-index=${index}
               ></astro-dev-toolbar-highlight>
             `,
