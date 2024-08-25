@@ -32,7 +32,13 @@ export default defineToolbarApp({
       e.preventDefault();
       if (window && window.top !== window.self) {
         // TODO  - update second argument to be target origin.
-        window.parent.postMessage({ type: "SANCTUARY_POST_MESSAGE" }, "*");
+        window.parent.postMessage(
+          {
+            type: "SANCTUARY_POST_MESSAGE",
+            href: e.target.getAttribute("href"),
+          },
+          "*",
+        );
       }
     };
 
@@ -51,6 +57,9 @@ export default defineToolbarApp({
     render(
       html`
         ${Array.from(content, (element, index) => {
+          const props = JSON.parse(
+            element.getAttribute("data-sanctuary") || "",
+          );
           // Place a button and highlight for the element
           element.setAttribute("data-index", index.toString());
           element.addEventListener("mouseover", () => {
@@ -77,7 +86,7 @@ export default defineToolbarApp({
             html`
               <astro-dev-toolbar-button
                 class="sanctuary-button"
-                href="https://sanctuary.ddev.site/node/2/edit"
+                href=${props.iframe}
                 onClick=${postMessage}
                 onMouseEnter=${toggleHighlight}
                 onMouseLeave=${toggleHighlight}
@@ -88,6 +97,7 @@ export default defineToolbarApp({
                   icon="gear"
                   style=${iconStyle}
                   data-index=${index}
+                  href=${props.iframe}
                 ></astro-dev-toolbar-icon>
               </astro-dev-toolbar-button>
               <astro-dev-toolbar-highlight
