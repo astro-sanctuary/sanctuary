@@ -26,6 +26,7 @@ const resizeObserver = new ResizeObserver(() => {
 export default defineToolbarApp({
   init(canvas, app) {
     const content = document.querySelectorAll<HTMLElement>("[data-sanctuary]");
+    const isIframe = window && window.top !== window.self;
 
     const postMessage = (e) => {
       // Send a generic post message to the parent window.
@@ -39,6 +40,12 @@ export default defineToolbarApp({
           },
           "*",
         );
+      }
+    };
+
+    const openEdit = (e) => {
+      if (window) {
+        window.open(e.target.getAttribute("href"), "_blank");
       }
     };
 
@@ -60,6 +67,7 @@ export default defineToolbarApp({
           const props = JSON.parse(
             element.getAttribute("data-sanctuary") || "",
           );
+          const href = isIframe ? props.iframe : props.edit;
           // Place a button and highlight for the element
           element.setAttribute("data-index", index.toString());
           element.addEventListener("mouseover", () => {
@@ -86,8 +94,8 @@ export default defineToolbarApp({
             html`
               <astro-dev-toolbar-button
                 class="sanctuary-button"
-                href=${props.iframe}
-                onClick=${postMessage}
+                href=${href}
+                onClick=${isIframe ? postMessage : openEdit}
                 onMouseEnter=${toggleHighlight}
                 onMouseLeave=${toggleHighlight}
                 style=${buttonStyle}
@@ -97,7 +105,7 @@ export default defineToolbarApp({
                   icon="gear"
                   style=${iconStyle}
                   data-index=${index}
-                  href=${props.iframe}
+                  href=${href}
                 ></astro-dev-toolbar-icon>
               </astro-dev-toolbar-button>
               <astro-dev-toolbar-highlight
