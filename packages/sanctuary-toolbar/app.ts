@@ -7,13 +7,19 @@ const resetPosition = () => {
   const highlights = document.querySelectorAll<HTMLElement>(
     ".sanctuary-highlight",
   );
-  for (let i = 0; i < content.length; i++) {
-    const rect = content[i].getBoundingClientRect();
-    highlights[i].style.width = `${rect.width}px`;
-    highlights[i].style.height = `${rect.height}px`;
-    highlights[i].style.top = `${rect.top + window.scrollY}px`;
-    highlights[i].style.left = `${rect.left + window.scrollX}px`;
-  }
+  const buttons = document.querySelectorAll<HTMLElement>(".sanctuary-button");
+  content.forEach((element) => {
+    const i = element.getAttribute("data-index");
+    if (i) {
+      const rect = element.getBoundingClientRect();
+      highlights[i].style.width = `${rect.width}px`;
+      highlights[i].style.height = `${rect.height}px`;
+      highlights[i].style.top = `${rect.top + window.scrollY}px`;
+      highlights[i].style.left = `${rect.left + window.scrollX}px`;
+      buttons[i].style.top = `${rect.top + window.scrollY}px`;
+      buttons[i].style.left = `${rect.left + window.scrollX}px`;
+    }
+  });
 };
 
 // Re-calculate highlights on resize.
@@ -42,6 +48,8 @@ export default defineToolbarApp({
         );
       }
     };
+
+    resizeObserver.observe(document.body);
 
     const openEdit = (e) => {
       if (window) {
@@ -124,12 +132,12 @@ export default defineToolbarApp({
 
     // Set up and tear down highlighted elements when the toolbar is toggled.
     app.onToggled(({ state }) => {
-      if (state) {
-        resizeObserver.observe(document.body);
-        resetPosition();
-      } else {
-        resizeObserver.unobserve(document.body);
-      }
+      // if (state) {
+      //   resizeObserver.observe(document.body);
+      //   resetPosition();
+      // } else {
+      //   resizeObserver.unobserve(document.body);
+      // }
     });
   },
 });
