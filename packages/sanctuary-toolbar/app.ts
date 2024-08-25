@@ -39,13 +39,13 @@ const resizeObserver = new ResizeObserver(() => {
 const postMessage = (e) => {
   e.preventDefault();
   if (window && window.top !== window.self) {
-    // TODO  - update second argument to be target origin.
     window.parent.postMessage(
       {
         type: "SANCTUARY_POST_MESSAGE",
         href: e.target.getAttribute("href"),
       },
-      "*",
+      // TODO - TS issue?
+      import.meta.env.PUBLIC_DRUPAL_BASE_URL ?? "*",
     );
   }
 };
