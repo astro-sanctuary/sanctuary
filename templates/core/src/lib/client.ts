@@ -6,7 +6,7 @@ export const client = new JsonApiClient(
   import.meta.env.PUBLIC_DRUPAL_BASE_URL,
   {
     serializer: new Jsona(),
-    cache: createCache(),
+    cache: import.meta.env.MODE === "development" ? undefined : createCache(),
     debug: import.meta.env.MODE === "development",
   },
 );

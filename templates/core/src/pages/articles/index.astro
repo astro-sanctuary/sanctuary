@@ -6,6 +6,7 @@ import { client } from "@lib/client.ts";
 import { getSettings } from "@lib/settings";
 import { absoluteUrl, setEdgeCacheHeaders } from "@/lib/utils.ts";
 import { nodeArticleWithImageSchema } from "@/lib/schemas/nodeArticleWithImageSchema.ts";
+import { getToolbarProps } from "@/lib/getToolbarProps.ts";
 import BaseHead from "@/components/BaseHead.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
@@ -110,7 +111,7 @@ setEdgeCacheHeaders(Astro.response.headers);
           {
             articles.map((article) => {
               return (
-                <li>
+                <li {...getToolbarProps(article)}>
                   <a href={article.path.alias}>
                     <Image
                       width={720}
