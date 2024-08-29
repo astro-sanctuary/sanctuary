@@ -111,7 +111,7 @@ setEdgeCacheHeaders(Astro.response.headers);
           {
             articles.map((article) => {
               return (
-                <li {...getToolbarProps(article)}>
+                <li {...getToolbarProps({ node: article })}>
                   <a href={article.path.alias}>
                     <Image
                       width={720}

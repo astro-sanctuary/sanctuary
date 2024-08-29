@@ -4,6 +4,7 @@ import { menuItemsMainSchema } from "@lib/schemas/menuItemsMainSchema";
 import HeaderLink from "@components/HeaderLink.astro";
 import SocialMenu from "@components/SocialMenu.astro";
 import { getSettings } from "@lib/settings";
+import { getToolbarProps } from "@/lib/getToolbarProps.ts";
 
 const settings = await getSettings();
 
@@ -15,7 +16,13 @@ const mainMenu = mainMenuSchema.parse(
 
 <header>
   <nav>
-    <h2><a href="/">{settings.field_sanctuary_site_title}</a></h2>
+    <h2
+      {...getToolbarProps({
+        entity: settings,
+      })}
+    >
+      <a href="/">{settings.field_sanctuary_site_title}</a>
+    </h2>
     <div class="internal-links">
       {
         mainMenu.map((item) => {

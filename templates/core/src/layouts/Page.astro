@@ -27,7 +27,7 @@ const settings = await getSettings();
   <body>
     <Header />
     <main>
-      <article {...getToolbarProps(node)}>
+      <article {...getToolbarProps({ node })}>
         <slot />
       </article>
     </main>

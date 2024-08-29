@@ -90,20 +90,12 @@ const DrupalElement = ({ element, index }) => {
 
   // Place a button and highlight for the element
   element.setAttribute("data-index", index.toString());
-  // element.addEventListener("mouseover", () => {
-  //   const relatedHighlight = document.querySelector(
-  //     `.sanctuary-highlight[data-index="${index}"]`,
-  //   );
-  //   if (relatedHighlight) {
-  //     (relatedHighlight as HTMLElement).style.display = "block";
-  //   }
-  // });
   const rect = element.getBoundingClientRect();
   const buttonStyle = `top: ${rect.top + window.scrollY}px;
           left: ${rect.left + window.scrollX}px;
           z-index: 2000000001;
           position: absolute;`;
-  const iconStyle = `width: 1.5rem; height: 1.5rem; margin-left: 0;`;
+  const iconStyle = `width: 1rem; height: 1rem; margin-left: 0;`;
   const highlightStyle = `top: ${rect.top + window.scrollY}px;
           left: ${rect.left + window.scrollX}px;
           width: ${rect.width}px;

@@ -6,9 +6,11 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 
 const sanctuarySettingsSchema = configPagesSanctuarySettingsSchema.element.pick(
   {
+    type: true,
     field_sanctuary_site_title: true,
     field_sanctuary_site_description: true,
     field_sanctuary_copyright: true,
+    drupal_internal__id: true,
   },
 );
 
@@ -20,6 +22,7 @@ export const getSettings = async (): Promise<SanctuarySettings> => {
   );
   const resource = response[0];
   return {
+    type: resource.type,
     field_sanctuary_site_title: resource.field_sanctuary_site_title
       ? resource.field_sanctuary_site_title
       : SITE_TITLE,
@@ -27,5 +30,6 @@ export const getSettings = async (): Promise<SanctuarySettings> => {
       ? resource.field_sanctuary_site_description
       : SITE_DESCRIPTION,
     field_sanctuary_copyright: resource.field_sanctuary_copyright,
+    drupal_internal__id: resource.drupal_internal__id,
   };
 };
