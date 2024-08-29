@@ -26,7 +26,16 @@ const mainMenu = mainMenuSchema.parse(
     <div class="internal-links">
       {
         mainMenu.map((item) => {
-          return <HeaderLink href={item.url}>{item.title}</HeaderLink>;
+          return (
+            <HeaderLink
+              href={item.url}
+              {...getToolbarProps({
+                entity: item,
+              })}
+            >
+              {item.title}
+            </HeaderLink>
+          );
         })
       }
     </div>

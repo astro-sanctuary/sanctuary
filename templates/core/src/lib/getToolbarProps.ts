@@ -9,7 +9,9 @@ interface Node {
 
 interface Entity {
   type: string;
-  drupal_internal__id: number;
+  drupal_internal__id?: number;
+  meta?: { entity_id: string } | Array<unknown>;
+  [key: string]: any;
 }
 
 interface ToolbarProps {
@@ -29,13 +31,24 @@ export const getToolbarProps = ({
   let dataSanctuary = {};
   if (entity) {
     const [type] = entity.type.split("--");
+    let id: number | string;
+    switch (type) {
+      case "menu_link_content":
+        // If entity.meta is an array, the menu link isn't editable.
+        if (Array.isArray(entity.meta)) {
+          id = "";
+        } else {
+          id = entity?.meta?.entity_id ? entity?.meta.entity_id : "";
+        }
+        break;
+      default:
+        id = entity?.drupal_internal__id ? entity.drupal_internal__id : "";
+        break;
+    }
+    if (id === "") return {};
     dataSanctuary = {
-      edit: absoluteUrl(
-        `/frontend-editing/form/${type}/${entity.drupal_internal__id}`,
-      ),
-      iframe: absoluteUrl(
-        `/frontend-editing/form/${type}/${entity.drupal_internal__id}`,
-      ),
+      edit: absoluteUrl(`/frontend-editing/form/${type}/${id}`),
+      iframe: absoluteUrl(`/frontend-editing/form/${type}/${id}`),
     };
   }
   if (node) {

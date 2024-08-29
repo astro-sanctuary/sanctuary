@@ -2,6 +2,7 @@
 import { client } from "@lib/client.ts";
 import { menuItemsSocialLinksSchema } from "@lib/schemas/menuItemsSocialLinksSchema";
 import { Icon } from "astro-icon/components";
+import { getToolbarProps } from "@/lib/getToolbarProps.ts";
 
 interface Props {
   width?: number;
@@ -22,7 +23,13 @@ const socialMenu = menuItemsSocialLinksSchema.parse(
       const set = item.field_icon.icon.match(/\((.*?)\)/);
       const name = `${set ? `${set[1]}:` : ":"}${icon}`;
       return (
-        <a href={item.url} target="_blank">
+        <a
+          href={item.url}
+          target="_blank"
+          {...getToolbarProps({
+            entity: item,
+          })}
+        >
           <Icon name={name} width={width} height={height} />
         </a>
       );

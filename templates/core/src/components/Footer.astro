@@ -1,5 +1,6 @@
 ---
 import { getSettings } from "@lib/settings";
+import { getToolbarProps } from "@/lib/getToolbarProps.ts";
 import SocialMenu from "@components/SocialMenu.astro";
 
 const settings = await getSettings();
@@ -8,7 +9,12 @@ const today = new Date();
 ---
 
 <footer>
-  &copy; {`${today.getFullYear()} ${settings.field_sanctuary_copyright}`}
+  &copy; {`${today.getFullYear()}`}
+  <span
+    {...getToolbarProps({
+      entity: settings,
+    })}>{`${settings.field_sanctuary_copyright}`}</span
+  >
   <SocialMenu />
 </footer>
 <style>
