@@ -1,0 +1,5 @@
+sanctuary:
+  js:
+    js/sanctuary.js: {}
+  dependencies:
+    - core/drupal

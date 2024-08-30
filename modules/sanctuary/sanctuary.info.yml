@@ -1,0 +1,5 @@
+name: 'sanctuary'
+type: module
+description: 'Helpers for the Sancturary Astro starter kit'
+package: Custom
+core_version_requirement: ^10 || ^11

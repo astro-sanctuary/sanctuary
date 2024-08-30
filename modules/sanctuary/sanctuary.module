@@ -1,0 +1,10 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for sanctuary module.
+ */
+
+function sanctuary_page_attachments(array &$page) {
+  $page['#attached']['library'][] = 'sanctuary/sanctuary';
+}
