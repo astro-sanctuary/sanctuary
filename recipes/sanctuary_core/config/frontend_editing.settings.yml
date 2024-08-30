@@ -1,0 +1,9 @@
+entity_types:
+  config_pages:
+    - sanctuary_settings
+  node:
+    - article
+    - page
+  menu_link_content:
+    - main
+    - social-links

@@ -1,5 +1,7 @@
-name: 'sanctuary'
+name: "Sanctuary"
 type: module
-description: 'Helpers for the Sancturary Astro starter kit'
+description: "Helpers for the Sancturary Astro starter kit"
 package: Custom
 core_version_requirement: ^10 || ^11
+dependencies:
+  - frontend_editing:frontend_editing

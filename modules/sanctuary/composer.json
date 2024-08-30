@@ -1,0 +1,15 @@
+{
+  "name": "drupal/sanctuary",
+  "description": "Frontend editing and other features for the Sanctuary starter.",
+  "type": "drupal-module",
+  "license": "GPL-2.0-or-later",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
+    }
+  ],
+  "require": {
+    "drupal/frontend_editing": "^1.7"
+  }
+}

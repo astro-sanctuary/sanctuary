@@ -19,12 +19,16 @@ ddev composer config allow-plugins.ewcomposer/unpack true -n
 # Add repositories
 ddev composer config repositories.unpack vcs https://gitlab.ewdev.ca/yonas.legesse/drupal-recipe-unpack.git
 ddev composer config repositories.recipe path web/recipes/sanctuary_core
+ddev composer config repositories.module path web/modules/custom/sanctuary
 
 # Open up CORS for local development
 cat ../scripts/config/enable-local-settings.php >> web/sites/default/settings.php
 cp web/sites/example.settings.local.php web/sites/default/settings.local.php
 cp ../scripts/config/development.services.yml web/sites/development.services.yml
 mkdir config
+
+# Add modules
+cp -a ../modules/. web/modules/custom
 
 # Add recipies
 cp -a ../recipes/. web/recipes

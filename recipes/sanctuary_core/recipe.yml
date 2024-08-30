@@ -7,11 +7,13 @@ install:
   - config_pages
   - decoupled_preview_iframe
   - decoupled_router
+  - frontend_editing
   - jsonapi_menu_items
   - jsonapi_menu_items_hypermedia
   - jsonapi_views
   - iconify_icons
   - menu_item_extras
+  - sanctuary
 
 config:
   actions:
@@ -24,3 +26,6 @@ config:
     system.theme:
       simple_config_update:
         default: "claro"
+    frontend_editing.settings:
+      simple_config_update:
+        ui_toggle: false
