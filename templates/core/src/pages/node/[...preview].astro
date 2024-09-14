@@ -1,0 +1,36 @@
+---
+import BaseHead from "@/components/BaseHead.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import { getSettings } from "@lib/settings";
+
+const settings = await getSettings();
+
+const { preview } = Astro.params;
+const parts = preview?.split('/');
+const uuid = parts?.[1];
+const displayMode = parts?.[2];
+
+const { searchParams } = Astro.url
+const token = searchParams.get('token')
+---
+
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`${settings.field_sanctuary_site_title}`}
+      description={""}
+    />
+  </head>
+
+  <body>
+    <Header />
+    <main>
+      <h2>Preview</h2>
+      <p>UUID: {uuid}</p>
+      <p>Display mode: {displayMode}</p>
+      <p>Token: {token}</p>
+    </main>
+    <Footer />
+  </body>
+</html>
