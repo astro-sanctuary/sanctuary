@@ -1,0 +1,3 @@
+view preview resources:
+  title: "View preview resources"
+  restrict access: true

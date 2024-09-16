@@ -1,0 +1,30 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for jsonapi_preview_provider module.
+ */
+
+use Drupal\Core\Form\FormStateInterface;
+
+// Alter the node edit form to add a new submit handler for the preview button.
+function jsonapi_preview_provider_form_node_form_alter(array &$form, FormStateInterface $form_state, string $form_id) {
+  $form['actions']['preview']['#submit'][] = 'jsonapi_preview_provider_node_form_submit';
+}
+
+function jsonapi_preview_provider_node_form_submit(array &$form, FormStateInterface $form_state) {
+$entity = $form_state->getFormObject()->getEntity();
+$uuid = $entity->uuid();
+$token = \Drupal::currentUser()->id() . '_' . $uuid;
+
+// Also add a copy in the shared tempstore, for access via API.
+$temp_store_shared = \Drupal::service('tempstore.shared');
+$store_shared = $temp_store_shared->get('jsonapi_preview_provider');
+$store_shared->set($token, $form_state);
+
+// Get the current form redirect path.
+$redirect_url = $form_state->getRedirect();
+// TODO - pass the token without exposing it in the query string
+$redirect_url->setOption('query', ['preview_token' => $token]);
+$form_state->setRedirectUrl($redirect_url);
+}

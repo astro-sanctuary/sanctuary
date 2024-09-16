@@ -1,0 +1,14 @@
+{
+  "name": "drupal/jsonapi_preview_provider",
+  "type": "drupal-module",
+  "license": "GPL-2.0-or-later",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
+    }
+  ],
+  "require": {
+    "drupal/jsonapi_resources": "^1.2"
+  }
+}

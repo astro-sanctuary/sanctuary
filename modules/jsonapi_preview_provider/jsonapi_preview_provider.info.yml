@@ -1,0 +1,7 @@
+name: "JSON:API Preview Provider"
+type: module
+description: "A preview provider for use with the decoupled_preview_iframe module."
+package: Decoupled
+core_version_requirement: ^10 || ^11
+dependencies:
+  - jsonapi_resources:jsonapi_resources

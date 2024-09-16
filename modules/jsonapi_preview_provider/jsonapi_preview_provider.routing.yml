@@ -1,0 +1,7 @@
+# Custom JSON:API endpoint that provides data to FE preview
+jsonapi_preview_provider.preview_resource:
+  path: "/%jsonapi%/node/preview/{id}"
+  defaults:
+    _jsonapi_resource: Drupal\jsonapi_preview_provider\Resource\PreviewResource
+  requirements:
+    _permission: "view preview resources"
