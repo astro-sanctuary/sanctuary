@@ -19,6 +19,7 @@
     "drupal/jsonapi_preview_provider": "dev-main",
     "drupal/jsonapi_views": "^1.1",
     "drupal/menu_item_extras": "^3.0",
-    "drupal/sanctuary": "dev-main"
+    "drupal/sanctuary": "dev-main",
+    "drupal/simple_oauth": "^5.2"
   }
 }
