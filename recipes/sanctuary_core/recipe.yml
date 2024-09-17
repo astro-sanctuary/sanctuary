@@ -10,6 +10,7 @@ install:
   - frontend_editing
   - jsonapi_menu_items
   - jsonapi_menu_items_hypermedia
+  - jsonapi_preview_provider
   - jsonapi_views
   - iconify_icons
   - menu_item_extras

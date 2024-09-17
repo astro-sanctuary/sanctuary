@@ -18,8 +18,10 @@ ddev composer config minimum-stability dev
 ddev composer config allow-plugins.ewcomposer/unpack true -n
 # Add repositories
 ddev composer config repositories.unpack vcs https://gitlab.ewdev.ca/yonas.legesse/drupal-recipe-unpack.git
+ddev composer config repositories.preview vcs https://github.com/backlineint/decoupled_preview_iframe.git
 ddev composer config repositories.recipe path web/recipes/sanctuary_core
 ddev composer config repositories.module path web/modules/custom/sanctuary
+ddev composer config repositories.provider path web/modules/custom/jsonapi_preview_provider
 
 # Open up CORS for local development
 cat ../scripts/config/enable-local-settings.php >> web/sites/default/settings.php

@@ -11,11 +11,12 @@
   ],
   "require": {
     "drupal/config_pages": "^2.15",
-    "drupal/decoupled_preview_iframe": "^1.0",
+    "drupal/decoupled_preview_iframe": "dev-main",
     "drupal/decoupled_router": "^2.0",
     "drupal/iconify_icons": "^1.0",
     "drupal/jsonapi_menu_items": "^1.2",
     "drupal/jsonapi_hypermedia": "^1.9",
+    "drupal/jsonapi_preview_provider": "dev-main",
     "drupal/jsonapi_views": "^1.1",
     "drupal/menu_item_extras": "^3.0",
     "drupal/sanctuary": "dev-main"
