@@ -5,7 +5,7 @@ export const nodeArticleWithImageSchema = z.array(
     type: z.string(),
     id: z.string(),
     drupal_internal__nid: z.number(),
-    drupal_internal__vid: z.number(),
+    drupal_internal__vid: z.number().nullable(),
     langcode: z.string(),
     revision_timestamp: z.string(),
     status: z.boolean(),
@@ -68,8 +68,8 @@ export const nodeArticleWithImageSchema = z.array(
       resourceIdObjMeta: z.object({
         alt: z.string(),
         title: z.string(),
-        width: z.number(),
-        height: z.number(),
+        width: z.number().nullable(),
+        height: z.number().nullable(),
         drupal_internal__target_id: z.number(),
       }),
       uid: z.object({
