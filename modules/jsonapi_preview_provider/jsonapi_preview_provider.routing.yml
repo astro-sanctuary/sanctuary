@@ -5,3 +5,5 @@ jsonapi_preview_provider.preview_resource:
     _jsonapi_resource: Drupal\jsonapi_preview_provider\Resource\PreviewResource
   requirements:
     _permission: "view preview resources"
+  options:
+    no_cache: TRUE
