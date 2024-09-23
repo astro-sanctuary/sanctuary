@@ -2,10 +2,10 @@
 
 namespace Drupal\jsonapi_preview_provider\Resource;
 
+use Drupal\Core\Cache\Cache;
 use Drupal\jsonapi_resources\Resource\EntityResourceBase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Route;
-use Drupal\Core\Cache\CacheableMetadata;
 
 /**
  * Processes a request for a collection containing a resource being edited.
@@ -32,9 +32,17 @@ class PreviewResource extends EntityResourceBase {
     if (isset($tempstore_key)) {
       $form_state = \Drupal::service('tempstore.shared')->get('jsonapi_preview_provider')->get($tempstore_key);
       $entity = $form_state->getFormObject()->getEntity();
+      $nid = $entity->id();
     }
 
     $entity->mergeCacheMaxAge(0);
+    /*
+     * This is a pretty big hammer, and could make the entity less cachable for
+     * other JSON:API endpoints.
+     * TODO - refine this, ideally making t possible to invalidate using a cache
+     * tag that will only be relevant to preview.
+     */
+    Cache::invalidateTags(["node:{$nid}"]);
 
     $data = $this->createIndividualDataFromEntity($entity);
     $response = $this->createJsonapiResponse($data, $request);

@@ -5,7 +5,7 @@ export const nodePageSchema = z.array(
     type: z.string(),
     id: z.string(),
     drupal_internal__nid: z.number(),
-    drupal_internal__vid: z.number(),
+    drupal_internal__vid: z.number().nullable(),
     langcode: z.string(),
     revision_timestamp: z.string(),
     status: z.boolean(),
