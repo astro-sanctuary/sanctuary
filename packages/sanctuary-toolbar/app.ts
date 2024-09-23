@@ -145,8 +145,6 @@ const renderApp = () => {
 
 export default defineToolbarApp({
   init(canvas, app) {
-    resizeObserver.observe(document.body);
-
     // Re-render app after client-side navigation
     document.addEventListener("astro:page-load", async () => {
       resizeObserver.unobserve(document.body);
@@ -155,16 +153,17 @@ export default defineToolbarApp({
       resetPosition();
     });
 
-    renderApp();
-
-    // Set up and tear down highlighted elements when the toolbar is toggled.
+    // Set up and tear down toolbar app elements when the toolbar is toggled.
     app.onToggled(({ state }) => {
-      // if (state) {
-      //   resizeObserver.observe(document.body);
-      //   resetPosition();
-      // } else {
-      //   resizeObserver.unobserve(document.body);
-      // }
+      if (state) {
+        renderApp();
+        resizeObserver.observe(document.body);
+      } else {
+        resizeObserver.unobserve(document.body);
+        // This looks a little horrifying, but  it just unmounts our Preact app.
+        // https://stackoverflow.com/a/54853028
+        render(null, document.body);
+      }
     });
   },
 });
