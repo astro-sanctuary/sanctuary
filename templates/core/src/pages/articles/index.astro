@@ -12,7 +12,7 @@ import FormattedDate from "@/components/FormattedDate.astro";
 
 const settings = await getSettings();
 
-const articles = await getCollection("articles");
+const articles = await getCollection("article");
 const filteredArticles = articles.filter(
   (article) => article.data.title !== "About Me",
 );
