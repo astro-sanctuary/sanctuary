@@ -1,11 +1,9 @@
 ---
-import { DrupalJsonApiParams } from "drupal-jsonapi-params";
 import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
 
-import { client } from "@lib/client.ts";
 import { getSettings } from "@lib/settings";
 import { absoluteUrl, setEdgeCacheHeaders } from "@/lib/utils.ts";
-import { nodeArticleWithImageSchema } from "@/lib/schemas/nodeArticleWithImageSchema.ts";
 import { getToolbarProps } from "@/lib/getToolbarProps.ts";
 import BaseHead from "@/components/BaseHead.astro";
 import Header from "@/components/Header.astro";
@@ -14,13 +12,9 @@ import FormattedDate from "@/components/FormattedDate.astro";
 
 const settings = await getSettings();
 
-const params = new DrupalJsonApiParams();
-params.addFilter("title", "About Me", "<>");
-params.addInclude(["field_image"]);
-const articles = nodeArticleWithImageSchema.parse(
-  await client.getCollection("node--article", {
-    queryString: params.getQueryString(),
-  }),
+const articles = await getCollection("articles");
+const filteredArticles = articles.filter(
+  (article) => article.data.title !== "About Me",
 );
 
 setEdgeCacheHeaders(Astro.response.headers);
@@ -109,19 +103,19 @@ setEdgeCacheHeaders(Astro.response.headers);
       <section>
         <ul>
           {
-            articles.map((article) => {
+            filteredArticles.map((article) => {
               return (
-                <li {...getToolbarProps({ node: article })}>
-                  <a href={article.path.alias}>
+                <li {...getToolbarProps({ node: article.data })}>
+                  <a href={article.data.path.alias}>
                     <Image
                       width={720}
                       height={360}
-                      src={absoluteUrl(article.field_image.uri.url)}
-                      alt={article.field_image.resourceIdObjMeta.alt}
+                      src={absoluteUrl(article.data.field_image.uri.url)}
+                      alt={article.data.field_image.resourceIdObjMeta.alt}
                     />
-                    <h4 class="title">{article.title}</h4>
+                    <h4 class="title">{article.data.title}</h4>
                     <p class="date">
-                      <FormattedDate date={new Date(article.created)} />
+                      <FormattedDate date={new Date(article.data.created)} />
                     </p>
                   </a>
                 </li>

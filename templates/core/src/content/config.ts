@@ -1,16 +1,19 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
+import { client } from "../../client";
+import { nodeArticleWithImageSchema } from "@/lib/schemas/nodeArticleWithImageSchema.ts";
 
-const blog = defineCollection({
-  type: "content",
-  // Type-check frontmatter using a schema
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    // Transform string to Date object
-    pubDate: z.coerce.date(),
-    updatedDate: z.coerce.date().optional(),
-    heroImage: z.string().optional(),
-  }),
+const articles = defineCollection({
+  loader: async () => {
+    const articles: any = await client.getCollection("node--article", {
+      queryString: "include=field_image",
+    });
+    return articles.map((article: any) => ({
+      id: article.id,
+      ...article,
+    }));
+  },
+  // TODO - is there a way to derive the schema dynamically?
+  schema: nodeArticleWithImageSchema.element,
 });
 
-export const collections = { blog };
+export const collections = { articles };
