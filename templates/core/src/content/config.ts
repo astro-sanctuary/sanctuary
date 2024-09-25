@@ -1,21 +1,8 @@
 import { defineCollection } from "astro:content";
 import { client } from "../../client";
-import { nodePageSchema } from "@lib/schemas/nodePageSchema";
 import { nodeArticleWithImageSchema } from "@/lib/schemas/nodeArticleWithImageSchema.ts";
 
-const page = defineCollection({
-  loader: async () => {
-    const pages: any = await client.getCollection("node--page");
-    return pages.map((page: any) => ({
-      id: page.id,
-      ...page,
-    }));
-  },
-  // TODO - is there a way to derive the schema dynamically?
-  schema: nodePageSchema.element,
-});
-
-const article = defineCollection({
+const articles = defineCollection({
   loader: async () => {
     const articles: any = await client.getCollection("node--article", {
       queryString: "include=field_image",
@@ -29,4 +16,4 @@ const article = defineCollection({
   schema: nodeArticleWithImageSchema.element,
 });
 
-export const collections = { page, article };
+export const collections = { articles };
