@@ -40,3 +40,7 @@ config:
           menu_link_content:
             - main
             - social-links
+    simple_oauth.settings:
+      simple_config_update:
+        public_key: "../keys/public.key"
+        private_key: "../keys/private.key"

@@ -3,6 +3,9 @@
 # Exit immediately on errors.
 set -e
 
+# Copy default .env file (feel free to change values as needed)
+cp templates/core/.env.example templates/core/.env
+
 # Create DDEV project
 mkdir drupal
 cd drupal
@@ -26,6 +29,8 @@ ddev composer config repositories.provider path web/modules/custom/jsonapi_previ
 # Open up CORS for local development
 cat ../scripts/config/enable-local-settings.php >> web/sites/default/settings.php
 cp web/sites/example.settings.local.php web/sites/default/settings.local.php
+mkdir scripts
+cp ../scripts/config/consumers.php scripts/consumers.php
 cp ../scripts/config/development.services.yml web/sites/development.services.yml
 mkdir config
 
@@ -47,5 +52,12 @@ ddev composer unpack drupal/sanctuary_core
 ddev drush cr
 ddev exec -d /var/www/html/web php core/scripts/drupal recipe recipes/sanctuary_content
 
+# Create example consumer
+ddev drush php:script scripts/consumers
+
 # use the one-time link (CTRL/CMD + Click) from the command below to edit your admin account details.
 ddev drush uli | xargs open
+
+# Start Astro dev server
+cd ..
+pnpm dev:core
