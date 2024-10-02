@@ -8,6 +8,13 @@ export const client = new JsonApiClient(
     serializer: new Jsona(),
     cache: import.meta.env.MODE === "development" ? undefined : createCache(),
     debug: import.meta.env.MODE === "development",
+    authentication: {
+      type: "OAuth",
+      credentials: {
+        clientId: import.meta.env.CLIENT_ID,
+        clientSecret: import.meta.env.CLIENT_SECRET,
+      },
+    },
   },
 );
 
