@@ -1,0 +1,13 @@
+{
+  "name": "drupal/sanctuary_content",
+  "description": "Example content for your Drupal Sanctuary project.",
+  "type": "drupal-recipe",
+  "license": "GPL-2.0-or-later",
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
+    }
+  ],
+  "require": {}
+}

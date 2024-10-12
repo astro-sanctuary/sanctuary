@@ -3,15 +3,9 @@ description: "A jump start for your Drupal Sanctuary project."
 type: "Site"
 
 install:
-  - jsonapi
   - config_pages
   - decoupled_preview_iframe
-  - decoupled_router
   - frontend_editing
-  - jsonapi_menu_items
-  - jsonapi_menu_items_hypermedia
-  - jsonapi_preview_provider
-  - jsonapi_views
   - iconify_icons
   - menu_item_extras
   - sanctuary

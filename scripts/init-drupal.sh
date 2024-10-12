@@ -22,7 +22,9 @@ ddev composer config allow-plugins.ewcomposer/unpack true -n
 # Add repositories
 ddev composer config repositories.unpack vcs https://gitlab.ewdev.ca/yonas.legesse/drupal-recipe-unpack.git
 ddev composer config repositories.preview vcs https://github.com/backlineint/decoupled_preview_iframe.git
-ddev composer config repositories.recipe path web/recipes/sanctuary_core
+ddev composer config repositories.recipe_core path web/recipes/sanctuary_core
+ddev composer config repositories.recipe_jsonapi path web/recipes/sanctuary_jsonapi
+ddev composer config repositories.recipe_content path web/recipes/sanctuary_content
 ddev composer config repositories.module path web/modules/custom/sanctuary
 ddev composer config repositories.provider path web/modules/custom/jsonapi_preview_provider
 
@@ -41,14 +43,14 @@ cp -a ../modules/. web/modules/custom
 cp -a ../recipes/. web/recipes
 
 # Add useful composer dependencies
-ddev composer require drush/drush drupal/default_content drupal/sanctuary_core ewcomposer/unpack:dev-master
+ddev composer require drush/drush drupal/default_content drupal/sanctuary_jsonapi ewcomposer/unpack:dev-master
 
 # Install Drupal
 ddev drush site:install --account-name=admin --account-pass=admin -y
 
 # Apply recipe
-ddev exec -d /var/www/html/web php core/scripts/drupal recipe recipes/sanctuary_core
-ddev composer unpack drupal/sanctuary_core
+ddev exec -d /var/www/html/web php core/scripts/drupal recipe recipes/sanctuary_jsonapi
+ddev composer unpack drupal/sanctuary_jsonapi
 ddev drush cr
 ddev exec -d /var/www/html/web php core/scripts/drupal recipe recipes/sanctuary_content
 

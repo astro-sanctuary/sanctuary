@@ -1,0 +1,13 @@
+name: "Sanctuary JSON:API"
+description: "A jump start for your Drupal Sanctuary project using JSON:API."
+type: "Site"
+recipes:
+  - sanctuary_core
+
+install:
+  - jsonapi
+  - decoupled_router
+  - jsonapi_menu_items
+  - jsonapi_menu_items_hypermedia
+  - jsonapi_preview_provider
+  - jsonapi_views
