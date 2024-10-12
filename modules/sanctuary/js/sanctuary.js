@@ -2,6 +2,8 @@
  * @file
  * Sanctuary behaviors.
  */
+// This block is borrowed from the Frotend Editing module. Apparently in 2.x it
+// could be used as a dependency rather than a copy-paste.
 (function (Drupal) {
   "use strict";
   // Global variables
@@ -12,13 +14,13 @@
   const removePlaceholder = function () {
     // Delete all previews placeholders.
     const previewElements = document.querySelectorAll(
-      ".frontend-editing--placeholder",
+      ".frontend-editing--placeholder"
     );
     previewElements.forEach(function (previewElement) {
       previewElement.remove();
     });
     const activeEditingElements = document.querySelectorAll(
-      ".frontend-editing--active-editing",
+      ".frontend-editing--active-editing"
     );
     activeEditingElements.forEach(function (activeEditingElement) {
       activeEditingElement.classList.remove("frontend-editing--active-editing");
@@ -40,7 +42,7 @@
       editContainer.id = "editing-container";
       editContainer.classList.add(
         "editing-container",
-        "editing-container--loading",
+        "editing-container--loading"
       );
       document.body.append(editContainer);
       editContainer.style.width = sidebarClassWidth;
@@ -139,7 +141,7 @@
 
       editingClick(data);
     },
-    false,
+    false
   );
 
   Drupal.behaviors.sanctuarySanctuary = {

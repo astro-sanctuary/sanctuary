@@ -14,19 +14,30 @@ monorepo.
 ## Installation
 
 1. Clone this repository
-2. Run `pnpm install`
-3. Run `pnpm ddev:init`
+2. Run `pnpm i && pnpm ddev:init`
 
-## Configuration
-
-- https://sanctuary.ddev.site/admin/config/people/simple_oauth - generate keys
-- generate consumer
+This will install dependencies, and set up a Drupal instance using DDEV, and run
+the Astro project in development mode. When viewing content as an admin on
+https://sanctuary.ddev.site, you will see the Astro project embedded in an iFrame.
 
 ## Usage
 
-1. Run `pnpm dev:core`
+1. Start ddev with `ddev start` to start Drupal
+2. Run `pnpm dev:core` to start Astro in dev mode.
 
-## Packages
+## Monorepo Overview
+
+- /drupal: Contains the Drupal codebase and configuration. Excluded from version
+  control.
+- /modules: pre-release Drupal modules
+  - jsonapi_preview_provider - draft preview integration for decoupled_preview_iframe
+  - sanctuary - handles post message events from the decoupled iFrame to trigger
+    front end editing forms, and handle route syncing. js/sanctuary.js also ports
+    some js from frontend editing module (that hopefully can be removed in the future)
+- /packages: Astro dev toolbar package. Can be toggled on at the bottom of the page.
+  this communication to Drupal parent window to trigger front end editing forms.
+- /recipes and /scripts: recipes and scripts for setting up the Drupal instance.
+- /templates - the actual Astro starter kit.
 
 ## Teardown
 
