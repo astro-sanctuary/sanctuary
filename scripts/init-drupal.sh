@@ -65,4 +65,5 @@ ddev drush uli | xargs open
 
 # Start Astro dev server
 cd ..
-pnpm dev:core
+# pnpm dev:core
+pnpm dev:core-jsonapi

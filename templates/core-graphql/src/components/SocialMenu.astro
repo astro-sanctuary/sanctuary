@@ -1,0 +1,38 @@
+---
+import { client } from "@lib/client.ts";
+import { menuItemsSocialLinksSchema } from "@lib/schemas/menuItemsSocialLinksSchema";
+import { Icon } from "astro-icon/components";
+import { getToolbarProps } from "@/lib/getToolbarProps.ts";
+
+interface Props {
+  width?: number;
+  height?: number;
+}
+
+const { width = 40, height = 40 } = Astro.props;
+
+const socialMenu = menuItemsSocialLinksSchema.parse(
+  await client.getCollection("menu_items--social-links"),
+);
+---
+
+<div class="social-links">
+  {
+    socialMenu.map((item) => {
+      const icon = item.field_icon.icon.replace(/\s*\(.*?\)/g, "");
+      const set = item.field_icon.icon.match(/\((.*?)\)/);
+      const name = `${set ? `${set[1]}:` : ":"}${icon}`;
+      return (
+        <a
+          href={item.url}
+          target="_blank"
+          {...getToolbarProps({
+            entity: item,
+          })}
+        >
+          <Icon name={name} width={width} height={height} />
+        </a>
+      );
+    })
+  }
+</div>

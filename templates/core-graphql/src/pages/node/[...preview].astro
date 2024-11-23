@@ -1,0 +1,46 @@
+---
+import { client } from "@lib/client.ts";
+import { baseNodeSchema } from "@lib/schemas/baseNodeSchema";
+import { nodeArticleWithImageSchema } from "@/lib/schemas/nodeArticleWithImageSchema.ts";
+import { nodePageSchema } from "@lib/schemas/nodePageSchema";
+import Node from "@/components/Node.astro";
+
+interface SchemaData {
+  schema: typeof nodeArticleWithImageSchema | typeof nodePageSchema;
+  queryString: string;
+}
+
+const schemas: {
+  [key: string]: SchemaData;
+} = {
+  "node--article": {
+    schema: nodeArticleWithImageSchema,
+    queryString: "include=field_image",
+  },
+  "node--page": { schema: nodePageSchema, queryString: "" },
+};
+
+const { searchParams } = Astro.url;
+const token = searchParams.get("token");
+
+if (!token) {
+  return Astro.redirect("/404");
+}
+
+const resourceType = baseNodeSchema.parse(
+  await client.getResource("node--preview", token),
+).type;
+
+const { schema, queryString } = schemas[resourceType];
+const resource = await client.getResource("node--preview", token, {
+  queryString,
+});
+
+// Return a 404 if the resource doesn't match the expected schema
+const node = schema.element.parse(resource);
+if (!node?.id) {
+  return Astro.redirect("/404");
+}
+---
+
+<Node node={node} resourceType={resourceType} />

@@ -1,0 +1,38 @@
+{
+  "name": "@drupal-sanctuary/core-graphql",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "generate-schema": "node --env-file=.env bin/generate-schema.mjs",
+    "prettier": "prettier .",
+    "prettier:fix": "prettier --write ."
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.3",
+    "@astrojs/mdx": "4.0.0-beta.1",
+    "@astrojs/node": "9.0.0-beta.2",
+    "@astrojs/rss": "^4.0.7",
+    "@astrojs/sitemap": "^3.1.6",
+    "@drupal-api-client/decoupled-router-client": "^1.1.0",
+    "@drupal-api-client/json-api-client": "^1.0.1",
+    "@iconify-json/mdi": "^1.1.67",
+    "astro": "5.0.0-beta.1",
+    "astro-icon": "^1.1.0",
+    "drupal-jsonapi-params": "^2.3.1",
+    "json-to-zod": "^1.1.2",
+    "jsona": "^1.12.1",
+    "typescript": "^5.4.5",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "prettier": "^3.3.2",
+    "prettier-plugin-astro": "^0.14.0",
+    "sanctuary-toolbar": "workspace:*",
+    "vite": "^5.3.5"
+  }
+}

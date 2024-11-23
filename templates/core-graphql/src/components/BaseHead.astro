@@ -1,0 +1,99 @@
+---
+import { ClientRouter } from "astro:transitions";
+
+// Import the global.css file here so that it is included on
+// all pages through the use of the <BaseHead /> component.
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+}
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+const { title, description, image = "/blog-placeholder-1.jpg" } = Astro.props;
+---
+
+<!-- Global Metadata -->
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Font preloads -->
+<link
+  rel="preload"
+  href="/fonts/atkinson-regular.woff"
+  as="font"
+  type="font/woff"
+  crossorigin
+/>
+<link
+  rel="preload"
+  href="/fonts/atkinson-bold.woff"
+  as="font"
+  type="font/woff"
+  crossorigin
+/>
+
+<!-- Canonical URL -->
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={Astro.url} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={new URL(image, Astro.url)} />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={Astro.url} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={new URL(image, Astro.url)} />
+
+<ClientRouter />
+
+<script>
+  import {
+    isResolved,
+    isRaw,
+    type DecoupledRouterResponse,
+    type RawDecoupledRouterResponse,
+  } from "@drupal-api-client/decoupled-router-client";
+  import { router } from "@lib/client.ts";
+
+  document.addEventListener("astro:page-load", async () => {
+    if (window && window.top !== window.self) {
+      const path = window.location.pathname;
+      let translatedPath: DecoupledRouterResponse | RawDecoupledRouterResponse;
+      try {
+        translatedPath = await router.translatePath(path);
+      } catch (error) {
+        return;
+      }
+      const drupalPath =
+        !isRaw(translatedPath) && isResolved(translatedPath)
+          ? translatedPath.resolved.replace(
+              import.meta.env.PUBLIC_DRUPAL_BASE_URL,
+              "",
+            )
+          : "";
+      // TODO - only sync if the path exists in Drupal
+      if (path === drupalPath) {
+        window.parent.postMessage(
+          { type: "DECOUPLED_PREVIEW_IFRAME_ROUTE_SYNC", path },
+          import.meta.env.PUBLIC_DRUPAL_BASE_URL,
+        );
+      }
+    }
+  });
+</script>

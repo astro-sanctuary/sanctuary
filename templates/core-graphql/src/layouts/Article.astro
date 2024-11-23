@@ -1,0 +1,113 @@
+---
+import { z } from "zod";
+import { Image } from "astro:assets";
+
+import { nodeArticleWithImageSchema } from "@/lib/schemas/nodeArticleWithImageSchema.ts";
+import { absoluteUrl } from "@/lib/utils.ts";
+import { getSettings } from "@lib/settings";
+import { getToolbarProps } from "@/lib/getToolbarProps.ts";
+import BaseHead from "@/components/BaseHead.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import FormattedDate from "@/components/FormattedDate.astro";
+
+type Props = {
+  node: z.infer<typeof nodeArticleWithImageSchema.element>;
+};
+
+const { node } = Astro.props;
+const settings = await getSettings();
+const heroImage = absoluteUrl(node.field_image.uri.url);
+const heroAlt = node.field_image.resourceIdObjMeta.alt;
+const pubDate = new Date(node.created);
+const updatedDate =
+  node?.changed && node.created !== node.changed
+    ? new Date(node.changed)
+    : undefined;
+---
+
+<html lang="en">
+  <head>
+    <BaseHead
+      title={`${node.title} | ${settings.field_sanctuary_site_title}`}
+      description={node.body.summary ? node.body.summary : ""}
+    />
+    <style>
+      main {
+        width: calc(100% - 2em);
+        max-width: 100%;
+        margin: 0;
+      }
+      .hero-image {
+        width: 100%;
+      }
+      .hero-image img {
+        display: block;
+        margin: 0 auto;
+        border-radius: 12px;
+        box-shadow: var(--box-shadow);
+      }
+      .prose {
+        width: 720px;
+        max-width: calc(100% - 2em);
+        margin: auto;
+        padding: 1em;
+        color: rgb(var(--gray-dark));
+      }
+      .title {
+        margin-bottom: 1em;
+        padding: 1em 0;
+        text-align: center;
+        line-height: 1;
+      }
+      .title h1 {
+        margin: 0 0 0.5em 0;
+      }
+      .date {
+        margin-bottom: 0.5em;
+        color: rgb(var(--gray));
+      }
+      .last-updated-on {
+        font-style: italic;
+      }
+    </style>
+  </head>
+
+  <body>
+    <Header />
+    <main>
+      <article {...getToolbarProps({ node })}>
+        <div class="hero-image">
+          {
+            heroImage && (
+              <Image
+                width={1020}
+                height={510}
+                src={heroImage}
+                alt={heroAlt ? heroAlt : ""}
+              />
+            )
+          }
+        </div>
+        <div class="prose">
+          <div class="title">
+            <div class="date">
+              <FormattedDate date={pubDate} />
+              {
+                updatedDate && (
+                  <div class="last-updated-on">
+                    Last updated on <FormattedDate date={updatedDate} />
+                  </div>
+                )
+              }
+            </div>
+            <h1>{node.title}</h1>
+            <hr />
+          </div>
+          <slot />
+        </div>
+      </article>
+    </main>
+    <Footer />
+  </body>
+</html>

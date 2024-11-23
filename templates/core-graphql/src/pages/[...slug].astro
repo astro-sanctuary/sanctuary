@@ -1,0 +1,57 @@
+---
+import { isResolved, isRaw } from "@drupal-api-client/decoupled-router-client";
+import { client, router } from "@lib/client.ts";
+import { nodeArticleWithImageSchema } from "@/lib/schemas/nodeArticleWithImageSchema.ts";
+import { nodePageSchema } from "@lib/schemas/nodePageSchema";
+import { setEdgeCacheHeaders } from "@/lib/utils.ts";
+import Node from "@/components/Node.astro";
+
+interface SchemaData {
+  schema: typeof nodeArticleWithImageSchema | typeof nodePageSchema;
+  queryString: string;
+}
+
+const schemas: {
+  [key: string]: SchemaData;
+} = {
+  "node--article": {
+    schema: nodeArticleWithImageSchema,
+    queryString: "include=field_image",
+  },
+  "node--page": { schema: nodePageSchema, queryString: "" },
+};
+
+// Return a 404 if we can't translate a path
+const { slug } = Astro.params;
+const translatedPath = await router.translatePath(slug ? slug : "/");
+// These type guards should be easier to use...
+if (!isRaw(translatedPath) && !isResolved(translatedPath)) {
+  return Astro.redirect("/404");
+}
+
+// Get the requested resource from Drupal
+const resourceType = !isRaw(translatedPath)
+  ? translatedPath.jsonapi.resourceName
+  : "";
+const id =
+  !isRaw(translatedPath) &&
+  isResolved(translatedPath) &&
+  translatedPath.entity?.uuid
+    ? translatedPath.entity.uuid
+    : "";
+const { schema, queryString } = schemas[resourceType];
+const resource = await client.getResource(resourceType, id, {
+  queryString,
+});
+
+// Return a 404 if the resource doesn't match the expected schema
+const node = schema.element.parse(resource);
+if (!node?.id) {
+  return Astro.redirect("/404");
+}
+
+// Set ISR-style cache headers
+setEdgeCacheHeaders(Astro.response.headers);
+---
+
+<Node node={node} resourceType={resourceType} />
