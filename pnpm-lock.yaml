@@ -20,7 +20,7 @@ importers:
         specifier: ^10.23.1
         version: 10.23.1
 
-  templates/core:
+  templates/core-graphql:
     dependencies:
       '@astrojs/check':
         specifier: ^0.9.3
@@ -79,9 +79,9 @@ importers:
         version: link:../../packages/sanctuary-toolbar
       vite:
         specifier: ^5.3.5
-        version: 5.3.5
+        version: 5.4.7
 
-  templates/core-graphql:
+  templates/core-jsonapi:
     dependencies:
       '@astrojs/check':
         specifier: ^0.9.3

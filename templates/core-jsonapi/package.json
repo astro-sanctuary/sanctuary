@@ -1,5 +1,5 @@
 {
-  "name": "core",
+  "name": "@drupal-sanctuary/core-jsonapi",
   "type": "module",
   "version": "0.0.1",
   "scripts": {

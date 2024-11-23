@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev:core": "pnpm --filter './templates/core' dev",
+    "dev:core-jsonapi": "pnpm --filter './templates/core-jsonapi' dev",
     "dev:core-graphql": "pnpm --filter './templates/core-graphql' dev",
     "ddev:init": "./scripts/init-drupal.sh",
     "ddev:destroy": "./scripts/destroy-drupal.sh",
