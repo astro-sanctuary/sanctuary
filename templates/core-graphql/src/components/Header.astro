@@ -1,6 +1,5 @@
 ---
 import { client, graphqlClient } from "@lib/client.ts";
-import { menuItemsMainSchema } from "@lib/schemas/menuItemsMainSchema";
 import HeaderLink from "@components/HeaderLink.astro";
 import SocialMenu from "@components/SocialMenu.astro";
 import { getSettings } from "@lib/settings";
@@ -8,12 +7,20 @@ import { getToolbarProps } from "@/lib/getToolbarProps.ts";
 
 const settings = await getSettings();
 
-const mainMenuSchema = menuItemsMainSchema;
-const mainMenu = mainMenuSchema.parse(
-  await client.getCollection("menu_items--main"),
-);
+// TODO - generate types using GraphQL Codegen (or alternative)
+interface MainMenuResult {
+  data: {
+    menu: {
+      items: {
+        id: string;
+        title: string;
+        url: string;
+      }[];
+    };
+  };
+}
 
-const query = await graphqlClient.query(
+const query: MainMenuResult = await graphqlClient.query(
   `query MainMenu {
       menu(name: MAIN) {
         items {
@@ -24,7 +31,8 @@ const query = await graphqlClient.query(
       }
     }`,
 );
-console.log(query.data.menu.items);
+
+const mainMenu = query.data.menu.items;
 ---
 
 <header>
@@ -39,16 +47,7 @@ console.log(query.data.menu.items);
     <div class="internal-links">
       {
         mainMenu.map((item) => {
-          return (
-            <HeaderLink
-              href={item.url}
-              {...getToolbarProps({
-                entity: item,
-              })}
-            >
-              {item.title}
-            </HeaderLink>
-          );
+          return <HeaderLink href={item.url}>{item.title}</HeaderLink>;
         })
       }
     </div>
