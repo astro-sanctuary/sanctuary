@@ -1,5 +1,5 @@
 ---
-import { client } from "@lib/client.ts";
+import { client, graphqlClient } from "@lib/client.ts";
 import { menuItemsMainSchema } from "@lib/schemas/menuItemsMainSchema";
 import HeaderLink from "@components/HeaderLink.astro";
 import SocialMenu from "@components/SocialMenu.astro";
@@ -12,6 +12,19 @@ const mainMenuSchema = menuItemsMainSchema;
 const mainMenu = mainMenuSchema.parse(
   await client.getCollection("menu_items--main"),
 );
+
+const query = await graphqlClient.query(
+  `query MainMenu {
+      menu(name: MAIN) {
+        items {
+          id
+          title
+          url
+        }
+      }
+    }`,
+);
+console.log(query.data.menu.items);
 ---
 
 <header>
