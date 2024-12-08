@@ -4,7 +4,7 @@
 set -e
 
 # Copy default .env file (feel free to change values as needed)
-cp templates/core/.env.example templates/core/.env
+cp templates/core-graphql/.env.example templates/core-graphql/.env
 
 # Create DDEV project
 mkdir drupal
@@ -66,4 +66,4 @@ ddev drush uli | xargs open
 # Start Astro dev server
 cd ..
 # pnpm dev:core-jsonapi
-pnpm dev:core-jsonapi
+pnpm dev:core-graphql
