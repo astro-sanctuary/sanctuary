@@ -42,7 +42,11 @@ export const getToolbarProps = ({
         }
         break;
       default:
-        id = entity?.drupal_internal__id ? entity.drupal_internal__id : "";
+        if (entity.id) {
+          id = entity.id;
+        } else {
+          id = entity?.drupal_internal__id ? entity.drupal_internal__id : "";
+        }
         break;
     }
     if (id === "") return {};
