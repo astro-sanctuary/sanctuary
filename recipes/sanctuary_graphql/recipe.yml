@@ -10,3 +10,4 @@ install:
   - graphql_compose
   - graphql_compose_edges
   - graphql_compose_menus
+  - sanctuary_graphql

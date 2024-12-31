@@ -1,4 +1,9 @@
 entity_config:
+  config_pages:
+    sanctuary_settings:
+      enabled: true
+      query_load_enabled: true
+      edges_enabled: true
   menu:
     account:
       enabled: false
@@ -20,7 +25,15 @@ entity_config:
   taxonomy_term:
     tags:
       enabled: false
-field_config: {  }
+field_config:
+  config_pages:
+    sanctuary_settings:
+      field_sanctuary_copyright:
+        enabled: true
+      field_sanctuary_site_description:
+        enabled: true
+      field_sanctuary_site_title:
+        enabled: true
 settings:
   exclude_unpublished: true
   expose_entity_ids: true

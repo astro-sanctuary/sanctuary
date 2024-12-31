@@ -1,0 +1,8 @@
+name: "Sanctuary GraphQL"
+type: module
+description: "Helpers for the Sanctuary GraphQL starter kit"
+package: Sanctuary
+core_version_requirement: ^10 || ^11
+dependencies:
+  - config_pages:config_pages
+  - graphql_compose:graphql_compose
