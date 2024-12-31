@@ -1,35 +1,54 @@
-import { z } from "astro:content";
-
-import { client } from "@lib/client.ts";
-import { configPagesSanctuarySettingsSchema } from "@lib/schemas/configPagesSanctuarySettingsSchema";
+import { client, graphqlClient } from "@lib/client.ts";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 
-const sanctuarySettingsSchema = configPagesSanctuarySettingsSchema.element.pick(
-  {
-    type: true,
-    field_sanctuary_site_title: true,
-    field_sanctuary_site_description: true,
-    field_sanctuary_copyright: true,
-    drupal_internal__id: true,
-  },
-);
+export type SanctuarySettings = {
+  type: string;
+  id: number;
+  sanctuarySiteTitle: string;
+  sanctuarySiteDescription: string;
+  sanctuaryCopyright: string;
+};
 
-export type SanctuarySettings = z.infer<typeof sanctuarySettingsSchema>;
+interface SanctuarySettingsResult {
+  data: {
+    sanctuarySettings: {
+      edges: {
+        node: {
+          id: number;
+          sanctuarySiteTitle: string;
+          sanctuarySiteDescription: string;
+          sanctuaryCopyright: string;
+        };
+      }[];
+    };
+  };
+}
 
 export const getSettings = async (): Promise<SanctuarySettings> => {
-  const response = configPagesSanctuarySettingsSchema.parse(
-    await client.getCollection("config_pages--sanctuary_settings"),
+  const query: SanctuarySettingsResult = await graphqlClient.query(
+    `query SanctuarySettings {
+      sanctuarySettings(first: 1) {
+        edges {
+          node {
+            id
+            sanctuaryCopyright
+            sanctuarySiteDescription
+            sanctuarySiteTitle
+          }
+        }
+      }
+    }`,
   );
-  const resource = response[0];
+  const resource = query.data.sanctuarySettings.edges[0].node;
   return {
-    type: resource.type,
-    field_sanctuary_site_title: resource.field_sanctuary_site_title
-      ? resource.field_sanctuary_site_title
+    type: "config_pages--sanctuary_settings",
+    sanctuarySiteTitle: resource.sanctuarySiteTitle
+      ? resource.sanctuarySiteTitle
       : SITE_TITLE,
-    field_sanctuary_site_description: resource.field_sanctuary_site_description
-      ? resource.field_sanctuary_site_description
+    sanctuarySiteDescription: resource.sanctuarySiteDescription
+      ? resource.sanctuarySiteDescription
       : SITE_DESCRIPTION,
-    field_sanctuary_copyright: resource.field_sanctuary_copyright,
-    drupal_internal__id: resource.drupal_internal__id,
+    sanctuaryCopyright: resource.sanctuaryCopyright,
+    id: resource.id,
   };
 };
