@@ -4,23 +4,11 @@ import HeaderLink from "@components/HeaderLink.astro";
 import SocialMenu from "@components/SocialMenu.astro";
 import { getSettings } from "@lib/settings";
 import { getToolbarProps } from "@/lib/getToolbarProps.ts";
+import type { MenuResult } from "@/types/menus";
 
 const settings = await getSettings();
 
-// TODO - generate types using GraphQL Codegen (or alternative)
-interface MainMenuResult {
-  data: {
-    menu: {
-      items: {
-        id: string;
-        title: string;
-        url: string;
-      }[];
-    };
-  };
-}
-
-const query: MainMenuResult = await graphqlClient.query(
+const query: MenuResult = await graphqlClient.query(
   `query MainMenu {
       menu(name: MAIN) {
         items {

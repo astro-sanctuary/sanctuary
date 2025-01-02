@@ -1,8 +1,7 @@
 ---
-import { client } from "@lib/client.ts";
-import { menuItemsSocialLinksSchema } from "@lib/schemas/menuItemsSocialLinksSchema";
+import { client, graphqlClient } from "@lib/client.ts";
 import { Icon } from "astro-icon/components";
-import { getToolbarProps } from "@/lib/getToolbarProps.ts";
+import type { SocialMenuResult } from "@/types/menus";
 
 interface Props {
   width?: number;
@@ -11,25 +10,34 @@ interface Props {
 
 const { width = 40, height = 40 } = Astro.props;
 
-const socialMenu = menuItemsSocialLinksSchema.parse(
-  await client.getCollection("menu_items--social-links"),
+const query: SocialMenuResult = await graphqlClient.query(
+  `query MainMenu {
+      menu(name: SOCIAL_LINKS) {
+        items {
+          id
+          title
+          url
+          extras {
+            ... on MenuLinkContentSocialLink {
+              icon
+            }
+          }
+        }
+      }
+    }`,
 );
+
+const socialMenu = query.data.menu.items;
 ---
 
 <div class="social-links">
   {
     socialMenu.map((item) => {
-      const icon = item.field_icon.icon.replace(/\s*\(.*?\)/g, "");
-      const set = item.field_icon.icon.match(/\((.*?)\)/);
+      const icon = item.extras.icon.replace(/\s*\(.*?\)/g, "");
+      const set = item.extras.icon.match(/\((.*?)\)/);
       const name = `${set ? `${set[1]}:` : ":"}${icon}`;
       return (
-        <a
-          href={item.url}
-          target="_blank"
-          {...getToolbarProps({
-            entity: item,
-          })}
-        >
+        <a href={item.url} target="_blank">
           <Icon name={name} width={width} height={height} />
         </a>
       );

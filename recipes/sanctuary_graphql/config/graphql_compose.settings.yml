@@ -9,12 +9,14 @@ entity_config:
       enabled: false
     admin:
       enabled: false
+    content:
+      enabled: false
     footer:
       enabled: false
     main:
       enabled: true
     social-links:
-      enabled: false
+      enabled: true
     tools:
       enabled: false
   node:
@@ -33,6 +35,10 @@ field_config:
       field_sanctuary_site_description:
         enabled: true
       field_sanctuary_site_title:
+        enabled: true
+  menu_link_content:
+    social-links:
+      field_icon:
         enabled: true
 settings:
   exclude_unpublished: true
