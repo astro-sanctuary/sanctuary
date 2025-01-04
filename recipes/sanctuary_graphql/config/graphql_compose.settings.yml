@@ -9,8 +9,6 @@ entity_config:
       enabled: false
     admin:
       enabled: false
-    content:
-      enabled: false
     footer:
       enabled: false
     main:
@@ -21,9 +19,15 @@ entity_config:
       enabled: false
   node:
     article:
-      enabled: false
+      enabled: true
+      query_load_enabled: true
+      edges_enabled: true
+      routes_enabled: true
     page:
-      enabled: false
+      enabled: true
+      query_load_enabled: true
+      edges_enabled: true
+      routes_enabled: true
   taxonomy_term:
     tags:
       enabled: false
@@ -40,6 +44,17 @@ field_config:
     social-links:
       field_icon:
         enabled: true
+  node:
+    article:
+      body:
+        enabled: true
+      field_image:
+        enabled: true
+      field_tags:
+        enabled: true
+    page:
+      body:
+        enabled: true
 settings:
   exclude_unpublished: true
   expose_entity_ids: true
@@ -55,4 +70,5 @@ settings:
   svg_filesize: 100
   inflector_langcode: en
   inflector_singularize: true
+  custom: {  }
   edge_max_limit: 100

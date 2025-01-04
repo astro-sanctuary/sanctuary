@@ -19,7 +19,7 @@ const settings = await getSettings();
 <html lang="en">
   <head>
     <BaseHead
-      title={`${node.title} | ${settings.field_sanctuary_site_title}`}
+      title={`${node.title} | ${settings.sanctuarySiteTitle}`}
       description={node.body.summary ? node.body.summary : ""}
     />
   </head>
@@ -27,7 +27,8 @@ const settings = await getSettings();
   <body>
     <Header />
     <main>
-      <article {...getToolbarProps({ node })}>
+      <!-- TODO - Add back toolbar props -->
+      <article>
         <slot />
       </article>
     </main>

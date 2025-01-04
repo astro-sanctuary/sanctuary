@@ -11,7 +11,7 @@ const { node, resourceType } = Astro.props;
 
 const components: { [key: string]: typeof Article | typeof Page } = {
   "node--article": Article,
-  "node--page": Page,
+  NodePage: Page,
 };
 
 const Template = components[resourceType];
