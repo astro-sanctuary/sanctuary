@@ -1,35 +1,32 @@
 ---
-import { z } from "zod";
 import { Image } from "astro:assets";
 
-import { nodeArticleWithImageSchema } from "@/lib/schemas/nodeArticleWithImageSchema.ts";
-import { absoluteUrl } from "@/lib/utils.ts";
 import { getSettings } from "@lib/settings";
-import { getToolbarProps } from "@/lib/getToolbarProps.ts";
 import BaseHead from "@/components/BaseHead.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import FormattedDate from "@/components/FormattedDate.astro";
+import type { NodeArticle } from "@/types/nodes";
 
 type Props = {
-  node: z.infer<typeof nodeArticleWithImageSchema.element>;
+  node: NodeArticle;
 };
 
 const { node } = Astro.props;
 const settings = await getSettings();
-const heroImage = absoluteUrl(node.field_image.uri.url);
-const heroAlt = node.field_image.resourceIdObjMeta.alt;
-const pubDate = new Date(node.created);
+const heroImage = node.image.url;
+const heroAlt = node.image.alt;
+const pubDate = new Date(node.created.time);
 const updatedDate =
-  node?.changed && node.created !== node.changed
-    ? new Date(node.changed)
+  node?.changed?.time && node.created.time !== node.changed.time
+    ? new Date(node.changed.time)
     : undefined;
 ---
 
 <html lang="en">
   <head>
     <BaseHead
-      title={`${node.title} | ${settings.field_sanctuary_site_title}`}
+      title={`${node.title} | ${settings.sanctuarySiteTitle}`}
       description={node.body.summary ? node.body.summary : ""}
     />
     <style>
@@ -76,7 +73,8 @@ const updatedDate =
   <body>
     <Header />
     <main>
-      <article {...getToolbarProps({ node })}>
+      <!-- TODO - Add back toolbar props -->
+      <article>
         <div class="hero-image">
           {
             heroImage && (

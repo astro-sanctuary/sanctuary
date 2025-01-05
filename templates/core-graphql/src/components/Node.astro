@@ -10,7 +10,7 @@ type Props = {
 const { node, resourceType } = Astro.props;
 
 const components: { [key: string]: typeof Article | typeof Page } = {
-  "node--article": Article,
+  NodeArticle: Article,
   NodePage: Page,
 };
 

@@ -1,18 +1,39 @@
 // Pick up here, getting the types right
 
 export interface NodeBasicPage {
-  __typename: string;
+  __typename: "NodePage";
   id: string;
   body: {
+    summary: string;
     processed: string;
   };
   title: string;
 }
 
+export interface NodeArticle {
+  __typename: "NodeArticle";
+  id: string;
+  title: string;
+  body: {
+    summary: string;
+    processed: string;
+  };
+  image: {
+    url: string;
+    alt: string;
+  };
+  created: {
+    time: string;
+  };
+  changed: {
+    time: string;
+  };
+}
+
 export interface NodeResult {
   data: {
     route: {
-      entity: NodeBasicPage;
+      entity: NodeBasicPage | NodeArticle;
     };
   };
 }

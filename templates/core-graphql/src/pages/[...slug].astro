@@ -15,15 +15,28 @@ const query: NodeResult = await graphqlClient.query(
           __typename
           ... on NodePage {
             id
+            title
             body {
+              summary
               processed
             }
-            title
           }
           ... on NodeArticle {
             id
+            title
             body {
+              summary
               processed
+            }
+            image {
+              url
+              alt
+            }
+            created {
+              time
+            }
+            changed {
+              time
             }
           }
         }
