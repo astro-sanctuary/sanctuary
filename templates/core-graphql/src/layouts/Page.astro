@@ -4,6 +4,7 @@ import BaseHead from "@/components/BaseHead.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import { getSettings } from "@lib/settings";
+import { getToolbarProps } from "@/lib/getToolbarProps.ts";
 
 type Props = {
   node: NodeBasicPage;
@@ -26,7 +27,7 @@ const settings = await getSettings();
     <Header />
     <main>
       <!-- TODO - Add back toolbar props -->
-      <article>
+      <article {...getToolbarProps({ node })}>
         <slot />
       </article>
     </main>

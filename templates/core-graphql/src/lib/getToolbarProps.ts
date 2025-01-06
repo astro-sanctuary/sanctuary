@@ -2,9 +2,14 @@ import { absoluteUrl } from "@/lib/utils.ts";
 
 // TODO - these interfaces could be consolidated.
 
-interface Node {
+interface NodeJsonApi {
   type: string;
   drupal_internal__nid: number;
+}
+
+interface NodeGraphQl {
+  __typename: string;
+  id: string;
 }
 
 interface Entity {
@@ -24,7 +29,7 @@ export const getToolbarProps = ({
   props,
   entity,
 }: {
-  node?: Node;
+  node?: NodeJsonApi | NodeGraphQl;
   props?: ToolbarProps;
   entity?: Entity;
 }) => {
@@ -56,13 +61,22 @@ export const getToolbarProps = ({
     };
   }
   if (node) {
-    const [type] = node.type.split("--");
-    dataSanctuary = {
-      edit: absoluteUrl(`/${type}/${node.drupal_internal__nid}/edit`),
-      iframe: absoluteUrl(
-        `/frontend-editing/form/${type}/${node.drupal_internal__nid}`,
-      ),
-    };
+    // JSON:API
+    if ("type" in node) {
+      dataSanctuary = {
+        edit: absoluteUrl(`/node/${node.drupal_internal__nid}/edit`),
+        iframe: absoluteUrl(
+          `/frontend-editing/form/node/${node.drupal_internal__nid}`,
+        ),
+      };
+    }
+    // GraphQL
+    if ("__typename" in node) {
+      dataSanctuary = {
+        edit: absoluteUrl(`/node/${node.id}/edit`),
+        iframe: absoluteUrl(`/frontend-editing/form/node/${node.id}`),
+      };
+    }
   }
   if (props) {
     dataSanctuary = {
