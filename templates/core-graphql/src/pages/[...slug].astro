@@ -6,7 +6,6 @@ import type { NodeResult } from "@/types/nodes";
 
 const { slug } = Astro.params;
 
-// TODO - split specific nodes out into fragments
 const query: NodeResult = await graphqlClient.query(
   `query RouteQuery {
     route(path: "/${slug}") {

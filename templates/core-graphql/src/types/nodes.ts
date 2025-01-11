@@ -37,3 +37,13 @@ export interface NodeResult {
     };
   };
 }
+
+export interface ArticleListResult {
+  data: {
+    nodeArticles: {
+      edges: {
+        node: NodeArticle & { path: string };
+      }[];
+    };
+  };
+}

@@ -1,27 +1,43 @@
 ---
-import { DrupalJsonApiParams } from "drupal-jsonapi-params";
 import { Image } from "astro:assets";
 
-import { client } from "@lib/client.ts";
+import { client, graphqlClient } from "@lib/client.ts";
 import { getSettings } from "@lib/settings";
-import { absoluteUrl, setEdgeCacheHeaders } from "@/lib/utils.ts";
-import { nodeArticleWithImageSchema } from "@/lib/schemas/nodeArticleWithImageSchema.ts";
+import { setEdgeCacheHeaders } from "@/lib/utils.ts";
 import { getToolbarProps } from "@/lib/getToolbarProps.ts";
 import BaseHead from "@/components/BaseHead.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import FormattedDate from "@/components/FormattedDate.astro";
+import type { ArticleListResult } from "@/types/nodes";
 
 const settings = await getSettings();
 
-const params = new DrupalJsonApiParams();
-params.addFilter("title", "About Me", "<>");
-params.addInclude(["field_image"]);
-const articles = nodeArticleWithImageSchema.parse(
-  await client.getCollection("node--article", {
-    queryString: params.getQueryString(),
-  }),
+const query: ArticleListResult = await graphqlClient.query(
+  `query ArticlesListQuery {
+    nodeArticles(first: 10) {
+      edges {
+        node {
+          id
+          title
+          path
+          image {
+            url
+            alt
+          }
+          created {
+            time
+          }
+          changed {
+            time
+          }
+        }
+      }
+    }
+  }`,
 );
+
+const articles = query.data.nodeArticles.edges.map((edge) => edge.node);
 
 setEdgeCacheHeaders(Astro.response.headers);
 ---
@@ -112,16 +128,16 @@ setEdgeCacheHeaders(Astro.response.headers);
             articles.map((article) => {
               return (
                 <li {...getToolbarProps({ node: article })}>
-                  <a href={article.path.alias}>
+                  <a href={article.path}>
                     <Image
                       width={720}
                       height={360}
-                      src={absoluteUrl(article.field_image.uri.url)}
-                      alt={article.field_image.resourceIdObjMeta.alt}
+                      src={article.image.url}
+                      alt={article.image.alt}
                     />
                     <h4 class="title">{article.title}</h4>
                     <p class="date">
-                      <FormattedDate date={new Date(article.created)} />
+                      <FormattedDate date={new Date(article.created.time)} />
                     </p>
                   </a>
                 </li>
