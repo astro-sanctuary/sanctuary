@@ -18,6 +18,7 @@ const query: ArticleListResult = await graphqlClient.query(
     nodeArticles(first: 10) {
       edges {
         node {
+        __typename
           id
           title
           path
