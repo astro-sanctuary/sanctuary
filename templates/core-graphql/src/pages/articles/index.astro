@@ -37,7 +37,14 @@ const query: ArticleListResult = await graphqlClient.query(
   }`,
 );
 
-const articles = query.data.nodeArticles.edges.map((edge) => edge.node);
+const articles = query.data.nodeArticles.edges
+  .reduce<typeof query.data.nodeArticles.edges>(function (result, article) {
+    if (article.node.path !== "/about") {
+      result.push(article);
+    }
+    return result;
+  }, [])
+  .map((edge) => edge.node);
 
 setEdgeCacheHeaders(Astro.response.headers);
 ---
