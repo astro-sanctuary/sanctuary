@@ -8,7 +8,7 @@ const { slug } = Astro.params;
 
 const query: NodeResult = await graphqlClient.query(
   `query RouteQuery {
-    route(path: "/${slug}") {
+    route(path: "/${slug || ""}") {
       ... on RouteInternal {
         entity {
           __typename
