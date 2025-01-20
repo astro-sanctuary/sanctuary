@@ -1,4 +1,4 @@
-import { client, graphqlClient } from "@lib/client.ts";
+import { client } from "@lib/client.ts";
 import { SITE_TITLE, SITE_DESCRIPTION } from "@/consts";
 
 export type SanctuarySettings = {
@@ -25,7 +25,7 @@ interface SanctuarySettingsResult {
 }
 
 export const getSettings = async (): Promise<SanctuarySettings> => {
-  const query: SanctuarySettingsResult = await graphqlClient.query(
+  const query: SanctuarySettingsResult = await client.query(
     `query SanctuarySettings {
       sanctuarySettings(first: 1) {
         edges {

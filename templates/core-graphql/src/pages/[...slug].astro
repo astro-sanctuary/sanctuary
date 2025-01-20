@@ -1,12 +1,12 @@
 ---
-import { client, graphqlClient } from "@lib/client.ts";
+import { client } from "@lib/client.ts";
 import { setEdgeCacheHeaders } from "@/lib/utils.ts";
 import Node from "@/components/Node.astro";
 import type { NodeResult } from "@/types/nodes";
 
 const { slug } = Astro.params;
 
-const query: NodeResult = await graphqlClient.query(
+const query: NodeResult = await client.query(
   `query RouteQuery {
     route(path: "/${slug || ""}") {
       ... on RouteInternal {

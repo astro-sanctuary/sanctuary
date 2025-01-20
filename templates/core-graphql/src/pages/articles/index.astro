@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
 
-import { client, graphqlClient } from "@lib/client.ts";
+import { client } from "@lib/client.ts";
 import { getSettings } from "@lib/settings";
 import { setEdgeCacheHeaders } from "@/lib/utils.ts";
 import { getToolbarProps } from "@/lib/getToolbarProps.ts";
@@ -13,7 +13,7 @@ import type { ArticleListResult } from "@/types/nodes";
 
 const settings = await getSettings();
 
-const query: ArticleListResult = await graphqlClient.query(
+const query: ArticleListResult = await client.query(
   `query ArticlesListQuery {
     nodeArticles(first: 10) {
       edges {

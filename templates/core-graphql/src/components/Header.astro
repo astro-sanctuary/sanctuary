@@ -1,5 +1,5 @@
 ---
-import { client, graphqlClient } from "@lib/client.ts";
+import { client } from "@lib/client.ts";
 import HeaderLink from "@components/HeaderLink.astro";
 import SocialMenu from "@components/SocialMenu.astro";
 import { getSettings } from "@lib/settings";
@@ -8,7 +8,7 @@ import type { MenuResult } from "@/types/menus";
 
 const settings = await getSettings();
 
-const query: MenuResult = await graphqlClient.query(
+const query: MenuResult = await client.query(
   `query MainMenu {
       menu(name: MAIN) {
         items {
