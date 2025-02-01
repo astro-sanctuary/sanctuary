@@ -48,10 +48,11 @@ ddev composer require drush/drush drupal/default_content drupal/sanctuary_jsonap
 
 # Install Drupal
 ddev drush site:install --account-name=admin --account-pass=admin -y
+ddev drush cr
 
 # Apply recipe
-ddev drush recipe recipes/sanctuary_jsonapi
-ddev composer unpack drupal/sanctuary_jsonapi
+# ddev drush recipe recipes/sanctuary_jsonapi
+# ddev composer unpack drupal/sanctuary_jsonapi
 ddev drush recipe recipes/sanctuary_graphql
 ddev composer unpack drupal/sanctuary_graphql
 ddev drush cr

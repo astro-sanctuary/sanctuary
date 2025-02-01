@@ -10,6 +10,7 @@
     }
   ],
   "require": {
-    "drupal/graphql_compose": "^2.2"
+    "drupal/graphql_compose": "^2.2",
+    "drupal/graphql_compose_preview": "^1.0"
   }
 }
