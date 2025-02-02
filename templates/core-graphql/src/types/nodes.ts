@@ -38,6 +38,12 @@ export interface NodeResult {
   };
 }
 
+export interface PreviewResult {
+  data: {
+    preview: NodeBasicPage | NodeArticle;
+  };
+}
+
 export interface ArticleListResult {
   data: {
     nodeArticles: {

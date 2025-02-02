@@ -1,0 +1,60 @@
+---
+import { client } from "@lib/client.ts";
+import type { PreviewResult } from "@/types/nodes";
+import Node from "@/components/Node.astro";
+
+const { searchParams } = Astro.url;
+const token = searchParams.get("token");
+
+const { preview } = Astro.params;
+const previewId = preview?.split("/")[0];
+
+if (!token || !previewId) {
+  return Astro.redirect("/404");
+}
+
+const query: PreviewResult = await client.query(
+  `query previewQuery {
+    preview(id: "${previewId}", token: "${token}") {
+      __typename
+      ... on NodePage {
+        id
+        title
+        body {
+          summary
+          processed
+        }
+      }
+      ... on NodeArticle {
+        id
+        title
+        body {
+          summary
+          processed
+        }
+        image {
+          url
+          alt
+        }
+        created {
+          time
+        }
+        changed {
+          time
+        }
+      }
+    }
+  }`,
+);
+
+// TODO - Return a 404 if there is no preview data
+if (!query.data.preview) {
+  return Astro.redirect("/404");
+}
+
+const node = query.data.preview;
+const resourceType = node.__typename;
+
+---
+
+<Node node={node} resourceType={resourceType} />

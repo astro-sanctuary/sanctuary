@@ -4,7 +4,6 @@ type: "Site"
 
 install:
   - config_pages
-  - decoupled_preview_iframe
   - frontend_editing
   - iconify_icons
   - menu_item_extras

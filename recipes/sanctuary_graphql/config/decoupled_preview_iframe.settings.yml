@@ -6,4 +6,4 @@ preview_types:
     article: article
     page: page
 route_sync: DECOUPLED_PREVIEW_IFRAME_ROUTE_SYNC
-draft_provider: jsonapi_preview_provider
+draft_provider: graphql_compose_preview

@@ -51,12 +51,12 @@ ddev drush site:install --account-name=admin --account-pass=admin -y
 ddev drush cr
 
 # Apply recipe
-# ddev drush recipe recipes/sanctuary_jsonapi
-# ddev composer unpack drupal/sanctuary_jsonapi
-ddev drush recipe recipes/sanctuary_graphql
-ddev composer unpack drupal/sanctuary_graphql
+# ddev drush recipe recipes/sanctuary_jsonapi -v
+# ddev composer unpack drupal/sanctuary_jsonapi -v
+ddev drush recipe recipes/sanctuary_graphql -v
+ddev composer unpack drupal/sanctuary_graphql -v
 ddev drush cr
-ddev drush recipe recipes/sanctuary_content
+ddev drush recipe recipes/sanctuary_content -v
 
 # Create example consumer
 ddev drush php:script scripts/consumers

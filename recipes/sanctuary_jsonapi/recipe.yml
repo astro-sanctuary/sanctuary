@@ -7,6 +7,7 @@ recipes:
 install:
   - jsonapi
   - decoupled_router
+  - decoupled_preview_iframe
   - jsonapi_menu_items
   - jsonapi_menu_items_hypermedia
   - jsonapi_preview_provider

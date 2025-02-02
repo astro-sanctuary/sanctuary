@@ -7,6 +7,7 @@ recipes:
   - sanctuary_core
 
 install:
+  - decoupled_preview_iframe
   - graphql_compose
   - graphql_compose_edges
   - graphql_compose_menus
