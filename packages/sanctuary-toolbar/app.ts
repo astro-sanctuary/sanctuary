@@ -5,7 +5,7 @@ import { html } from "htm/preact";
 /**
  * Re-orient controls and highlights
  */
-const resetPosition = () => {
+export const resetPosition = () => {
   const content = document.querySelectorAll<HTMLElement>("[data-sanctuary]");
   const highlights = document.querySelectorAll<HTMLElement>(
     ".sanctuary-highlight",
@@ -37,7 +37,7 @@ const resizeObserver = new ResizeObserver(() => {
  * Send a message to the Drupal parent iframe. This is used to open the edit form.
  * @param e
  */
-const postMessage = (e) => {
+export const postMessage = (e) => {
   e.preventDefault();
   if (window && window.top !== window.self) {
     window.parent.postMessage(
@@ -54,7 +54,7 @@ const postMessage = (e) => {
 /**
  * In a standalone context, open the edit form in a new tab.
  */
-const openEdit = (e) => {
+export const openEdit = (e) => {
   if (window) {
     window.open(e.target.getAttribute("href"), "_blank");
   }
@@ -83,7 +83,7 @@ const toggleHighlight = (e) => {
  * @param element
  * @param index
  */
-const DrupalElement = ({ element, index }) => {
+export const DrupalElement = ({ element, index }) => {
   const isIframe = window && window.top !== window.self;
   const props = JSON.parse(element.getAttribute("data-sanctuary") || "");
   const href = isIframe ? props.iframe : props.edit;
@@ -128,7 +128,7 @@ const DrupalElement = ({ element, index }) => {
  * The main app component.
  * @param content NodeListOf<HTMLElement>
  */
-const App = ({ content }) => {
+export const App = ({ content }) => {
   return Array.from(content, (element, index) => {
     return html`<${DrupalElement} element=${element} index=${index} />`;
   });
@@ -146,10 +146,10 @@ const renderApp = () => {
 /**
  * Re-render app after client-side navigation
  */
-const handleRoutingEvent = () => {
-  resizeObserver.unobserve(document.body);
+export const handleRoutingEvent = (observer = resizeObserver) => {
+  observer.unobserve(document.body);
   renderApp();
-  resizeObserver.observe(document.body);
+  observer.observe(document.body);
   resetPosition();
 };
 

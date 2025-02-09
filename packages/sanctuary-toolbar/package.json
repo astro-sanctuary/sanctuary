@@ -2,10 +2,13 @@
   "name": "sanctuary-toolbar",
   "version": "1.0.0",
   "description": "",
-  "main": "./sanctuary-toolbar.ts",
-  "module": "./sanctuary-toolbar.ts",
+  "type": "module",
+  "main": "./sanctuary-toolbar.js",
+  "module": "./sanctuary-toolbar.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
   },
   "files": [
     "app.ts",
@@ -18,5 +21,13 @@
     "astro": "^4.11.0",
     "htm": "^3.1.1",
     "preact": "^10.23.1"
+  },
+  "devDependencies": {
+    "@preact/preset-vite": "^2.8.1",
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/preact": "^3.2.3",
+    "@vitest/coverage-v8": "^1.3.1",
+    "jsdom": "^24.0.0",
+    "vitest": "^1.3.1"
   }
 }
