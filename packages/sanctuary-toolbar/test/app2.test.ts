@@ -4,7 +4,7 @@ import {
   handleRoutingEvent,
   postMessage as postMessageToParent,
   openEdit,
-} from "./app";
+} from "../app";
 
 // ...existing code...
 
