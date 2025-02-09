@@ -1,7 +1,45 @@
 import { describe, it, expect, beforeEach, vi } from "vitest";
 import { render, fireEvent } from "@testing-library/preact";
 import { html } from "htm/preact";
-import { DrupalElement } from "./app";
+import { App, DrupalElement } from "../app";
+import appInit from "../app";
+
+describe("App", () => {
+  it("renders DrupalElements for each content element", () => {
+    const mockContent = [
+      document.createElement("div"),
+      document.createElement("div"),
+    ];
+    mockContent.forEach((el) => el.setAttribute("data-sanctuary", "{}"));
+
+    const { container } = render(html`<${App} content=${mockContent} />`);
+
+    expect(container.querySelectorAll(".sanctuary-button")).toHaveLength(2);
+    expect(container.querySelectorAll(".sanctuary-highlight")).toHaveLength(2);
+  });
+});
+
+describe("Toolbar initialization", () => {
+  beforeEach(() => {
+    document.body.innerHTML = "";
+    vi.clearAllMocks();
+  });
+
+  it("handles toolbar toggle correctly", () => {
+    const mockCanvas = document.createElement("div");
+    const mockApp = {
+      onToggled: vi.fn().mockImplementation((callback) => {
+        callback({ state: true });
+        expect(document.querySelectorAll("[data-sanctuary]")).toBeDefined();
+        callback({ state: false });
+        expect(document.body.children.length).toBe(0);
+      }),
+    };
+
+    appInit.init(mockCanvas, mockApp);
+    expect(mockApp.onToggled).toHaveBeenCalled();
+  });
+});
 
 describe("DrupalElement", () => {
   const mockElement = document.createElement("div");
@@ -35,12 +73,11 @@ describe("DrupalElement", () => {
 
     expect(button).toBeDefined();
     expect(highlight).toBeDefined();
-    expect(button.style.top).toBe("220px"); // 200 + scrollY
-    expect(button.style.left).toBe("160px"); // 150 + scrollX
+    expect(button.style.top).toBe("220px");
+    expect(button.style.left).toBe("160px");
   });
 
   it("uses iframe URL when in iframe context", () => {
-    // Mock iframe environment
     Object.defineProperty(window, "self", { value: {} });
     Object.defineProperty(window, "top", { value: { not: "self" } });
 
@@ -55,7 +92,6 @@ describe("DrupalElement", () => {
   });
 
   it("uses edit URL when not in iframe context", () => {
-    // Mock non-iframe environment
     Object.defineProperty(window, "self", { value: {} });
     Object.defineProperty(window, "top", { value: window.self });
 
