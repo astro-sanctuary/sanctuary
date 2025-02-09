@@ -83,7 +83,7 @@ const toggleHighlight = (e) => {
  * @param element
  * @param index
  */
-const DrupalElement = ({ element, index }) => {
+export const DrupalElement = ({ element, index }) => {
   const isIframe = window && window.top !== window.self;
   const props = JSON.parse(element.getAttribute("data-sanctuary") || "");
   const href = isIframe ? props.iframe : props.edit;
