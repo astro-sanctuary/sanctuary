@@ -5,7 +5,7 @@ import { html } from "htm/preact";
 /**
  * Re-orient controls and highlights
  */
-const resetPosition = () => {
+export const resetPosition = () => {
   const content = document.querySelectorAll<HTMLElement>("[data-sanctuary]");
   const highlights = document.querySelectorAll<HTMLElement>(
     ".sanctuary-highlight",

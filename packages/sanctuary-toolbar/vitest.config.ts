@@ -9,7 +9,7 @@ export default defineConfig(async () => {
     test: {
       environment: "jsdom",
       globals: true,
-      setupFiles: "./test/setup.ts",
+      setupFiles: ["./test/setup.ts"],
       coverage: {
         provider: "v8",
         reporter: ["text", "html"],
