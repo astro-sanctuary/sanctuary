@@ -8,9 +8,14 @@
     "dev:core-graphql": "pnpm --filter './templates/core-graphql' dev",
     "ddev:init": "./scripts/init-drupal.sh",
     "ddev:destroy": "./scripts/destroy-drupal.sh",
-    "ddev:reinstall": "./scripts/reinstall-drupal.sh"
+    "ddev:reinstall": "./scripts/reinstall-drupal.sh",
+    "test": "pnpm --filter './packages/*' test",
+    "prepare": "husky install"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "husky": "^8.0.3"
+  }
 }
