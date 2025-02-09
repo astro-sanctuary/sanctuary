@@ -13,7 +13,12 @@ export default defineConfig(async () => {
       coverage: {
         provider: "v8",
         reporter: ["text", "html"],
-        exclude: ["node_modules/**", "test/**"],
+        exclude: [
+          "node_modules/**",
+          "test/**",
+          ".prettierrc.mjs",
+          "sanctuary-toolbar.ts",
+        ],
       },
     },
   };
