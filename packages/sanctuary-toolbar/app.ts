@@ -37,7 +37,7 @@ const resizeObserver = new ResizeObserver(() => {
  * Send a message to the Drupal parent iframe. This is used to open the edit form.
  * @param e
  */
-const postMessage = (e) => {
+export const postMessage = (e) => {
   e.preventDefault();
   if (window && window.top !== window.self) {
     window.parent.postMessage(
@@ -54,7 +54,7 @@ const postMessage = (e) => {
 /**
  * In a standalone context, open the edit form in a new tab.
  */
-const openEdit = (e) => {
+export const openEdit = (e) => {
   if (window) {
     window.open(e.target.getAttribute("href"), "_blank");
   }
@@ -128,7 +128,7 @@ export const DrupalElement = ({ element, index }) => {
  * The main app component.
  * @param content NodeListOf<HTMLElement>
  */
-const App = ({ content }) => {
+export const App = ({ content }) => {
   return Array.from(content, (element, index) => {
     return html`<${DrupalElement} element=${element} index=${index} />`;
   });
@@ -146,10 +146,10 @@ const renderApp = () => {
 /**
  * Re-render app after client-side navigation
  */
-const handleRoutingEvent = () => {
-  resizeObserver.unobserve(document.body);
+export const handleRoutingEvent = (observer = resizeObserver) => {
+  observer.unobserve(document.body);
   renderApp();
-  resizeObserver.observe(document.body);
+  observer.observe(document.body);
   resetPosition();
 };
 
