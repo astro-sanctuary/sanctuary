@@ -13,6 +13,7 @@
     "prettier:fix": "prettier --write ."
   },
   "dependencies": {
+    "@astro-sanctuary/toolbar-drupal": "workspace:*",
     "@astrojs/check": "^0.9.3",
     "@astrojs/mdx": "4.0.0-beta.1",
     "@astrojs/node": "9.0.0-beta.2",
@@ -32,7 +33,6 @@
   "devDependencies": {
     "prettier": "^3.3.2",
     "prettier-plugin-astro": "^0.14.0",
-    "sanctuary-toolbar": "workspace:*",
     "vite": "^5.3.5"
   }
 }
