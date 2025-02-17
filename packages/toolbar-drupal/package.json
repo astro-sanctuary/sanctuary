@@ -1,6 +1,6 @@
 {
   "name": "@astro-sanctuary/toolbar-drupal",
-  "version": "0.1.0",
+  "version": "0.0.0",
   "description": "",
   "type": "module",
   "main": "./toolbar-drupal.ts",
