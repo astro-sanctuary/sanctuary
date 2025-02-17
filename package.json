@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "ci:publish": "pnpm publish -r",
     "dev:core-jsonapi": "pnpm --filter './templates/core-jsonapi' dev",
     "dev:core-graphql": "pnpm --filter './templates/core-graphql' dev",
     "ddev:init": "./scripts/init-drupal.sh",
@@ -16,6 +17,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@changesets/cli": "^2.28.0",
     "husky": "^8.0.3"
   }
 }
