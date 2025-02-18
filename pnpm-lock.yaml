@@ -88,6 +88,12 @@ importers:
       jsona:
         specifier: ^1.12.1
         version: 1.12.1
+      prettier:
+        specifier: ^3.3.2
+        version: 3.3.2
+      prettier-plugin-astro:
+        specifier: ^0.14.0
+        version: 0.14.0
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -95,12 +101,6 @@ importers:
         specifier: ^3.23.8
         version: 3.23.8
     devDependencies:
-      prettier:
-        specifier: ^3.3.2
-        version: 3.3.2
-      prettier-plugin-astro:
-        specifier: ^0.14.0
-        version: 0.14.0
       vite:
         specifier: ^5.3.5
         version: 5.4.7
@@ -149,6 +149,12 @@ importers:
       jsona:
         specifier: ^1.12.1
         version: 1.12.1
+      prettier:
+        specifier: ^3.3.2
+        version: 3.3.2
+      prettier-plugin-astro:
+        specifier: ^0.14.0
+        version: 0.14.0
       typescript:
         specifier: ^5.4.5
         version: 5.4.5
@@ -156,12 +162,6 @@ importers:
         specifier: ^3.23.8
         version: 3.23.8
     devDependencies:
-      prettier:
-        specifier: ^3.3.2
-        version: 3.3.2
-      prettier-plugin-astro:
-        specifier: ^0.14.0
-        version: 0.14.0
       vite:
         specifier: ^5.3.5
         version: 5.4.7
