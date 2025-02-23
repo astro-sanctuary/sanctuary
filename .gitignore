@@ -4,3 +4,6 @@ node_modules
 
 # Local Drupal instance
 drupal
+
+.npmrc
+.pnpm-store
