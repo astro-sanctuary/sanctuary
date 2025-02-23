@@ -1,0 +1,5 @@
+import { deepMap } from 'nanostores';
+
+var a=()=>{let t=deepMap({});return {get:async e=>t.get()[e],set:async(e,r)=>{t.setKey(e,r);}}};
+
+export { a as createCache };

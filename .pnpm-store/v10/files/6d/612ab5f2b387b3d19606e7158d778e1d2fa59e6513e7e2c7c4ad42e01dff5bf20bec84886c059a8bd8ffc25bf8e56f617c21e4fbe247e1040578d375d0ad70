@@ -1,0 +1,289 @@
+/**
+ * The base URL for all API requests.
+ */
+type BaseUrl = string;
+/**
+ * Represents a logging method that takes a message as input.
+ *
+ * @param message - The message to log.
+ */
+type LogMethod = (message: string) => void;
+type ApiClientOptions = {
+    /**
+     * The base path for the JSON:API endpoint
+     */
+    apiPrefix?: string;
+    /**
+     * Default cache implementation
+     * {@link Cache}
+     */
+    cache?: Cache;
+    /**
+     * Custom fetch method overrides fetch in the ApiClient
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/fetch}
+     * @param input input to the customFetch
+     * @param init additional configuration for the request like the method to use, headers, etc.
+     * @returns a {@link Response} wrapped in a promise
+     */
+    customFetch?: (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>;
+    /**
+     * The authentication configuration to use for authenticated API requests.
+     */
+    authentication?: Authentication;
+    /**
+     * The default locale to use for all API requests.
+     * @see {@link Locale}
+     */
+    defaultLocale?: Locale;
+    /**
+     * Custom serializer to use for deserializing api response.
+     * @type {Serializer}
+     */
+    serializer?: Serializer;
+    /**
+     * Represents a logger object with optional logging methods for various log levels.
+     */
+    logger?: {
+        [key in LogLevels]?: LogMethod;
+    };
+    /**
+     * If true, logs debug messages to the console.
+     */
+    debug?: boolean;
+};
+/**
+ * The response from the OAuth token endpoint
+ */
+type OAuthTokenResponse = {
+    /**
+     * access_token
+     */
+    accessToken: string;
+    /**
+     * Uses the expires_in value from the /oauth/token endpoint to calculate the validUntil value:
+     * ```ts
+     * Date.now() + expires_in * 1000
+     * ```
+     */
+    validUntil: number;
+    /**
+     * token_type
+     * usually "Bearer"
+     */
+    tokenType: string;
+};
+/**
+ * Possible credentials that can be used when requesting an OAuth token
+ */
+type OAuthCredentials = {
+    /**
+     * The OAuth Grant Type
+     */
+    grantType?: "client_credentials" | "password";
+    /**
+     * The OAuth Client ID
+     */
+    clientId: string;
+    /**
+     * The OAuth Client secret
+     */
+    clientSecret: string;
+    /**
+     * The Drupal account username or email
+     */
+    username?: string;
+    /**
+     * The Drupal account password
+     */
+    password?: string;
+};
+/**
+ * Valid auth types
+ */
+type AuthType = "Basic" | "OAuth" | "Custom";
+/**
+ * Internal type for composing Credentials types
+ */
+type Credentials<AT extends AuthType> = AT extends "Basic" ? {
+    /**
+     * The username to use for Basic authentication
+     */
+    username: string;
+    /**
+     * The password to use for Basic authentication
+     */
+    password: string;
+} : AT extends "OAuth" ? OAuthCredentials : AT extends "Custom" ? {
+    /**
+     * The Custom auth value
+     */
+    value: string;
+} : never;
+/**
+ * Internal type for composing Authentication types
+ */
+type Auth<AT extends AuthType> = {
+    /**
+     * The type of authentication to use
+     * @see {@link AuthType}
+     */
+    type: AT;
+    /**
+     * The credentials to use based on the authenticate type
+     * @see {@link Credentials}
+     */
+    credentials: Credentials<AT>;
+};
+/**
+ * Basic Authentication uses a base64 encoded username and password
+ * and the Authorization header labeled "Basic"
+ */
+type BasicAuth = Auth<"Basic">;
+/**
+ * OAuth uses OAuth2. It requests an access token from Drupal
+ * using a clientId and clientSecret. If they are valid, the token
+ * is returned and used for subsequent responses to Drupal.
+ */
+type OAuth = Auth<"OAuth">;
+/**
+ * Custom authentication uses a token that is passed in the Authorization header
+ */
+type CustomAuth = Auth<"Custom">;
+/**
+ * Represents the authentication configuration to use for authenticated API requests.
+ */
+type Authentication = BasicAuth | OAuth | CustomAuth;
+/**
+ * The cache used by the ApiClient to store responses.
+ * @method get - gets a value from the cache
+ * @method set - sets a value in the cache
+ */
+interface Cache {
+    get<T>(key: string, ...args: unknown[]): Promise<T>;
+    set<T>(key: string, value: T, ...args: unknown[]): Promise<unknown>;
+}
+type Locale = string;
+/**
+ * Represents a serializer interface that defines methods for serializing and deserializing data.
+ */
+interface Serializer {
+    /**
+     * Deserialize the given data.
+     * @param body - The data to be deserialized, represented as a record of string keys and unknown values.
+     * @param options - (Optional) Additional options to be used during deserialization.
+     * @returns The deserialized data, which may be of any type.
+     */
+    deserialize?(body: Record<string, unknown>, options?: Record<string, unknown>): unknown;
+    /**
+     * Serialize the given data.
+     * @param args - The data to be serialized, represented as a record of string keys and unknown values.
+     * @returns The serialized data, which may be of any type.
+     */
+    serialize?(...args: unknown[]): unknown;
+}
+type LogLevels = "error" | "warn" | "info" | "http" | "verbose" | "debug" | "silly";
+/**
+ * Represents the return value of the fetch method.
+ * Only one property will be set at a time.
+ */
+type FetchReturn = Promise<{
+    response: Response;
+    error: null;
+} | {
+    response: null;
+    error: Error;
+}>;
+/**
+ * Type predicate for
+ * @param arg
+ * @returns true if the auth type is OAuth
+ */
+declare const isOAuth: (arg: unknown) => arg is OAuth;
+
+/**
+ * Base class providing common functionality for all API clients.
+ * @see {@link ApiClientOptions} and {@link BaseUrl}
+ */
+declare class ApiClient {
+    #private;
+    /**
+     * {@link BaseUrl}
+     */
+    baseUrl: BaseUrl;
+    /**
+     * {@link ApiClientOptions.apiPrefix}
+     */
+    apiPrefix: ApiClientOptions["apiPrefix"];
+    /**
+     * {@link ApiClientOptions.customFetch}
+     */
+    customFetch: ApiClientOptions["customFetch"];
+    /**
+     * {@link ApiClientOptions.authentication}
+     */
+    authentication: ApiClientOptions["authentication"];
+    /**
+     * {@link ApiClientOptions.defaultLocale}
+     */
+    defaultLocale: ApiClientOptions["defaultLocale"];
+    /**
+     * {@link ApiClientOptions.cache}
+     */
+    cache: ApiClientOptions["cache"];
+    /**
+     * {@link ApiClientOptions.serializer}
+     */
+    serializer: ApiClientOptions["serializer"];
+    /**
+     * {@link ApiClientOptions.logger}
+     */
+    logger: ApiClientOptions["logger"];
+    /**
+     * {@link ApiClientOptions.debug}
+     */
+    debug: ApiClientOptions["debug"];
+    /**
+     *
+     * @param baseUrl - The base URL for all API requests. {@link BaseUrl}
+     * @param options - Optional configuration options. {@link ApiClientOptions}
+     */
+    constructor(baseUrl: BaseUrl, options?: ApiClientOptions);
+    /**
+     * Uses customFetch if it is set, otherwise uses the default fetch
+     * @param input - {@link RequestInfo}
+     * @param init - {@link RequestInit}
+     * @returns a response wrapped in a promise
+     */
+    fetch(input: RequestInfo | URL, init?: RequestInit): Promise<FetchReturn>;
+    /**
+     * Fetch the OAuth token from the BaseUrl
+     * @params params - The credentials for getting an OAuth token. {@link OAuthCredentials}
+     */
+    protected getAccessToken({ grantType, clientId, clientSecret, username, password, }: OAuthCredentials): Promise<OAuthTokenResponse>;
+    /**
+     * Adds an authorization header to the provided RequestInit options if
+     * authentication of type "Basic" is configured.
+     * If the authentication type is "OAuth", it will fetch a new
+     * access token or use the stored access token if it exists
+     * and is still valid.
+     * if the authentication type is "Custom", it will use the provided value.
+     *
+     * @param options - The RequestInit options to which the authorization header should be added.
+     * @returns The updated RequestInit options with the authorization header, if applicable.
+     */
+    addAuthorizationHeader(options: RequestInit | undefined): Promise<RequestInit>;
+    /**
+     * Calls the appropriate logger method based on level
+     * @param level level based on npm log levels
+     * @param message the message to log
+     */
+    log(level: LogLevels, message: string): void;
+    /**
+     * Retrieves a cached response from the cache.
+     * @param cacheKey - The cache key to use for retrieving the cached response.
+     * @returns A promise wrapping the cached response as a generic type.
+     */
+    getCachedResponse<T>(cacheKey: string): Promise<NonNullable<Awaited<T>> | null>;
+}
+
+export { ApiClient, type ApiClientOptions, type BaseUrl, type Cache, type FetchReturn, type Locale, type LogLevels, type LogMethod, type OAuthCredentials, type OAuthTokenResponse, type Serializer, isOAuth };

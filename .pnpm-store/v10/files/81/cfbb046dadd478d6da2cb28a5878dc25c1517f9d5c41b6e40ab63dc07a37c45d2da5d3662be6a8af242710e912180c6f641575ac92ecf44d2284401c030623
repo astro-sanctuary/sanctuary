@@ -1,0 +1,303 @@
+export { createCache } from '@drupal-api-client/utils';
+import { ApiClientOptions, Locale, ApiClient, BaseUrl } from '@drupal-api-client/api-client';
+import { DecoupledRouterClient } from '@drupal-api-client/decoupled-router-client';
+
+/**
+ * Extends ApiClientOptions to add JSON:API Specific options.
+ */
+interface JsonApiClientOptions extends ApiClientOptions {
+    /**
+     * If true, the client will use the JSON:API index endpoint to discover the available resources.
+     */
+    indexLookup?: boolean;
+    /**
+     * The api prefix to use for decoupled router
+     */
+    decoupledRouterApiPrefix?: string;
+}
+/**
+ * Base options for customizing each request.
+ */
+interface RequestBaseOptions {
+    /**
+     * The locale to use for the request.
+     * If not set, the default locale will be used.
+     * If no default locale is set, no locale will be used.
+     */
+    locale?: Locale;
+    /**
+     * Indicates whether the raw HTTP response should be returned.
+     * When set to true, the response will not be parsed or processed, providing the raw, unaltered response from the server.
+     */
+    rawResponse?: boolean;
+    /**
+     * Whether to disable the cache for the request.
+     */
+    disableCache?: boolean;
+    /**
+     * Whether to disable the authentication for the request.
+     */
+    disableAuthentication?: boolean;
+}
+/**
+ * Options for customizing the get request.
+ */
+interface GetOptions extends RequestBaseOptions {
+    /**
+     * A URL encoded query string to append to the request.
+     * See {@link https://www.drupal.org/docs/core-modules-and-themes/core-modules/jsonapi-module/fetching-resources-get} for some examples of valid query strings.
+     * @remarks To help generate a valid query string, use a library like drupal-jsonapi-params {@link https://www.npmjs.com/package/drupal-jsonapi-params} and the `toQueryString` method.
+     * @example
+     * ```ts
+     * const options = {
+     *  queryString: "filter[title][value]=My%20recipe",
+     * };
+     * ```
+     */
+    queryString?: string;
+}
+/**
+ * A string in the format "entityType--bundle".
+ */
+type EntityTypeWithBundle = `${string}--${string}`;
+/**
+ * Parameters comprising the segments of a JSON:API endpoint URL.
+ */
+interface EndpointUrlSegments {
+    /**
+     * The entity type identifier.
+     */
+    entityTypeId: string;
+    /**
+     * The bundle identifier.
+     */
+    bundleId?: string;
+    /**
+     * Optional. The locale segment. Default is an empty string.
+     */
+    localeSegment?: string;
+    /**
+     * Optional. The ID of the individual resource.
+     */
+    resourceId?: string;
+    /**
+     * Optional. The query string. Default is an empty string.
+     */
+    queryString?: string;
+}
+/**
+ * Options for customizing the patch request.
+ */
+interface UpdateOptions extends RequestBaseOptions {
+}
+/**
+ * Options for customizing the post request.
+ */
+interface CreateOptions extends RequestBaseOptions {
+}
+/**
+ * Options for customizing the delete request.
+ */
+interface DeleteOptions extends RequestBaseOptions {
+}
+/**
+ * A clone of the response object with the JSON parsed.
+ */
+interface RawApiResponseWithData<T> {
+    response: Response;
+    json: T;
+}
+/**
+ * Shape of a JSON:API index response.
+ */
+interface JsonApiIndex {
+    jsonapi: {
+        version: string;
+        meta: {
+            [metaProperty: string]: string | object;
+        };
+    };
+    data: [];
+    meta: {
+        [metaProperty: string]: string | object;
+    };
+    links: {
+        [resourceType: string]: {
+            href: string;
+        };
+    };
+}
+
+/**
+ * JSON:API Client class provides functionality specific to JSON:API server.
+ * @see {@link JsonApiClientOptions}
+ * @see {@link BaseUrl}
+ */
+declare class JsonApiClient extends ApiClient {
+    /**
+     * link {@link DecoupledRouterClient}
+     */
+    router: DecoupledRouterClient;
+    /**
+     * @see {@link JsonApiClientOptions.indexLookup}
+     */
+    indexLookup: JsonApiClientOptions["indexLookup"];
+    /**
+     * @see {@link JsonApiClientOptions.decoupledRouterApiPrefix}
+     */
+    decoupledRouterApiPrefix: JsonApiClientOptions["decoupledRouterApiPrefix"];
+    /**
+     * Creates a new instance of the JsonApiClient.
+     * @param baseUrl - The base URL of the API. {@link BaseUrl}
+     * @param options - (Optional) Additional options for configuring the API client. {@link JsonApiClientOptions}
+     */
+    constructor(baseUrl: BaseUrl, options?: JsonApiClientOptions);
+    /**
+     * Retrieves a collection of data of a specific entity type and bundle from the JSON:API.
+     * @param type - The type of resource to retrieve, in the format "entityType--bundle".
+     * For example, "node--page". {@link EntityTypeWithBundle}
+     * @param options - (Optional) Additional options for customizing the request. {@link GetOptions}
+     * @returns A Promise that resolves to the JSON data of the requested resource.
+     *
+     * @example
+     * Using JSONAPI.CollectionResourceDoc type from the jsonapi-typescript package
+     * ```ts
+     * const collection = await jsonApiClient.get<JSONAPI.CollectionResourceDoc<string, Recipe>>("node--recipe");
+     * ```
+     */
+    getCollection<T>(type: string, options?: GetOptions): Promise<T | RawApiResponseWithData<T>>;
+    /**
+     * Retrieves data for a resource by ID of a specific entity type and bundle from the JSON:API.
+     * @param type - The type of resource to retrieve, often in the format "entityType--bundle", but may be rewritten as a single string.
+     * @param resourceId - The ID of the individual resource to retrieve.
+     * @param options - (Optional) Additional options for customizing the request. {@link GetOptions}
+     * @returns A Promise that resolves to the JSON data of the requested resource.
+     *
+     * @example
+     * Using JSONAPI.CollectionResourceDoc type from the jsonapi-typescript package
+     * ```ts
+     * const collection = await jsonApiClient.get<JSONAPI.CollectionResourceDoc<string, Recipe>>("node--recipe");
+     * ```
+     */
+    getResource<T>(type: string, resourceId: string, options?: GetOptions): Promise<T | RawApiResponseWithData<T>>;
+    /**
+     * Generates an endpoint URL based on the provided parameters.
+     *
+     * @params params - The parameters to use for creating the URL. {@link EndpointUrlSegments}
+     * @returns The endpoint URL as a string.
+     */
+    createURL({ localeSegment, entityTypeId, bundleId, resourceId, queryString, }: EndpointUrlSegments): Promise<string>;
+    /**
+     * Deletes a resource of the specified type using the provided resource ID.
+     *
+     * @param type - The type of the entity with bundle information.
+     * @param resourceId - The ID of the resource to be deleted.
+     * @param options - (Optional) Additional options for customizing the request. {@link DeleteOptions}
+     * @returns A Promise that resolves to a Response object or RawApiResponseWithData.
+     *
+     * @example
+     * ```typescript
+     * const responseBody = await deleteResource("node--page", "7cbb8b73-8bcb-4008-874e-2bd496bd419d", { rawResponse: false });
+     * ```
+     */
+    deleteResource<T>(type: string, resourceId: string, options?: DeleteOptions): Promise<T | RawApiResponseWithData<T>>;
+    static getEntityTypeIdAndBundleId(type: string): {
+        entityTypeId: string;
+        bundleId: string;
+    };
+    /**
+     * Generates a cache key based on the provided parameters.
+     *
+     * @params params - The parameters to use for generating the cache key. {@link EndpointUrlSegments}
+     * @returns A promise wrapping the generated cache key as a string.
+     *
+     * @example
+     * // Generate a cache key with entityTypeId and bundleId only
+     * const key1 = await MyClass.createCacheKey('entity1', 'bundle1');
+     * // key1: 'entity1--bundle1'
+     *
+     * @example
+     * // Generate a cache key with entityTypeId, bundleId, localeSegment, and queryString
+     * const key2 = await MyClass.createCacheKey('entity2', 'bundle2', 'en-US', 'param1=value1&param2=value2');
+     * // key2: 'en-US--entity2--bundle2--<sha256_hash_of_query_string>'
+     */
+    static createCacheKey({ entityTypeId, bundleId, localeSegment, resourceId, queryString, }: EndpointUrlSegments): Promise<string>;
+    /**
+     * Attempts to resolve a path to a resource and then fetches the resolved resource.
+     * @param path - The path to resolve and fetch.
+     * @param options - (Optional) Additional options for customizing the request. {@link GetOptions}
+     * @returns - A promise that resolves to either the JSON data of the requested resource or an UnResolvedPath if the path could not be resolved.
+     *
+     * @example
+     * const article = await jsonApiClient.getResourceByPath("/articles/give-it-a-go-and-grow-your-own-herbs");
+     */
+    getResourceByPath(path: string, options?: GetOptions): Promise<unknown>;
+    /**
+     * Updates a resource of the specified type using the provided resource ID.
+     *
+     * @param type - The type of the entity with bundle information.
+     * @param resourceId - The ID of the resource to be updated.
+     * @param body - The body of the request.
+     * @param options - (Optional) Additional options for customizing the request. {@link UpdateOptions}
+     * @returns A Promise that resolves to a Response object or RawApiResponseWithData.
+     *
+     * @remarks
+     * This method initiates the update of a resource by sending a PATCH request to the API.
+     *
+     * @example
+     * ```typescript
+     * const responseBody = await updateResource("node--page", "7cbb8b73-8bcb-4008-874e-2bd496bd419d", `{
+     *        "data": {
+     *         "type": "node--page",
+     *         "id": "11fc449b-aca0-4b74-bc3b-677da021f1d7",
+     *         "attributes": {
+     *             "drupal_internal__nid": 2,
+     *             "drupal_internal__vid": 3,
+     *             "langcode": "en",
+     *             "revision_log": null,
+     *             "status": true,
+     *             "title": "test 2"
+     *         }
+     *     }
+     * }`, { rawResponse: false });
+     * ```
+     */
+    updateResource<T>(type: string, resourceId: string, body: string | object, options?: UpdateOptions): Promise<T | RawApiResponseWithData<T>>;
+    /**
+     * Create a resource of the specified type using the provided body.
+     *
+     * @param type - The type of the entity with bundle information.
+     * @param body - The body of the request.
+     * @param options - (Optional) Additional options for customizing the request. {@link CreateOptions}
+     * @returns A Promise that resolves to a Response object or RawApiResponseWithData.
+     *
+     * @remarks
+     * This method initiates the creation of a resource by sending a POST request to the API.
+     *
+     * @example
+     * ```typescript
+     * const responseBody = await createResource("node--page", `{
+     *   "data": {
+     *     "type": "node--page",
+     *     "attributes": {
+     *       "title": "My custom title",
+     *       "body": {
+     *         "value": "Custom value",
+     *         "format": "plain_text"
+     *       }
+     *     }
+     *   }
+     * }, { rawResponse: false });
+     * ```
+     */
+    createResource<T>(type: string, body: string | object, options?: CreateOptions): Promise<T | RawApiResponseWithData<T>>;
+    /**
+     * Processes the API response and returns the JSON data.
+     * @param response - The response object from the API.
+     * @param cacheKey - The cache key to use for caching the response.
+     * @param options  - (Optional) Additional options for customizing the request. {@link GetOptions | UpdateOptions | CreateOptions}
+     */
+    processApiResponseAndParseBody<T>(response: Response, cacheKey: string, options?: GetOptions | UpdateOptions | CreateOptions): Promise<T | string>;
+}
+
+export { type CreateOptions, type DeleteOptions, type EndpointUrlSegments, type EntityTypeWithBundle, type GetOptions, JsonApiClient, type JsonApiClientOptions, type JsonApiIndex, type RawApiResponseWithData, type RequestBaseOptions, type UpdateOptions };

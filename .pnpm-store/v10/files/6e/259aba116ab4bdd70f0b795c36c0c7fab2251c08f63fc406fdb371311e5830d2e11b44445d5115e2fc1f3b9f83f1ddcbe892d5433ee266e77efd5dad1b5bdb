@@ -1,0 +1,5 @@
+import { ApiClient } from '@drupal-api-client/api-client';
+
+var t=class extends ApiClient{constructor(s,e){super(s,e);let{apiPrefix:r}=e||{};this.apiPrefix=r||"graphql";}async query(s){let{response:e,error:r}=await this.fetch(`${this.baseUrl}/${this.apiPrefix}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({query:`${s}`})});if(r)throw this.debug&&this.log("error",`GraphQL query failed, Error: ${r.message}`),r;return await e.json()}};
+
+export { t as GraphqlClient };

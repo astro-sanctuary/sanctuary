@@ -1,0 +1,11 @@
+/**
+ * Factory function that created a  default cache implementation that uses the
+ * nanostores library.
+ * @returns A cache object that satisfies the Cache interface.
+ */
+declare const createCache: () => {
+    get: <T>(key: string) => Promise<T>;
+    set: <T_1>(key: string, value: T_1) => Promise<void>;
+};
+
+export { createCache };

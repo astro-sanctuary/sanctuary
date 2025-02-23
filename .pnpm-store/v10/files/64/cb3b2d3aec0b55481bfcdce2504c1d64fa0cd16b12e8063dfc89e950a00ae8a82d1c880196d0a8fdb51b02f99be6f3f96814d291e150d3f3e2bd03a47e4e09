@@ -1,0 +1,252 @@
+export interface FilterItems {
+    [key: string]: FilterItemType;
+}
+export declare type FilterItemShortest = string;
+export declare type FilterItemShort = {
+    operator: string;
+    value: string;
+};
+export declare type FilterItem = {
+    condition?: {
+        operator?: string;
+        path: string;
+        value?: string | string[];
+        memberOf?: string;
+    };
+    group?: GroupItem;
+};
+export declare type DrupalJsonApiParamConfig = {
+    useShortCutForQueryGeneration?: boolean;
+    alwaysUseFieldNameForKeys?: boolean;
+};
+export declare type FilterItemType = FilterItem | FilterItemShort | FilterItemShortest;
+export interface GroupItem {
+    conjunction: string;
+    memberOf?: string;
+}
+export interface PageItem {
+    limit?: number;
+    offset?: number;
+}
+export interface FieldItems {
+    [key: string]: string;
+}
+export interface DrupalJsonApiParamsStore {
+    filter: FilterItems;
+    sort: string[];
+    include: string[];
+    page: PageItem | undefined;
+    fields: FieldItems;
+}
+/**
+ * Object representation of Query string.
+ */
+export interface ParamBag<TValue> {
+    [id: string]: TValue;
+}
+export interface DrupalJsonApiParamsInterface {
+    initialize(input: string | object | DrupalJsonApiParamsInterface): this;
+    getQueryObject(): object;
+}
+export declare class DrupalJsonApiParams implements DrupalJsonApiParamsInterface {
+    private data;
+    private qsOptions;
+    private config;
+    /**
+     * Optionaly initialize with a previously stored query/object/query string.
+     *
+     * @category Init
+     */
+    constructor(input?: string | object | DrupalJsonApiParamsInterface, config?: DrupalJsonApiParamConfig);
+    /**
+     * Add custom parameter to the query.
+     *
+     * E.g. usage
+     *
+     * ```js
+     * apiParams
+     *   // To add `foo=bar` to the query.
+     *   .addCustomParam({foo: 'bar'})
+     *   // To add `foo[bar]=baz` to the query.
+     *   .addCustomParam({ foo: {bar: 'baz'}})
+     *   // To add `bar[0]=a&bar[1]=b&bar[2]=c` to the query.
+     *   .addCustomParam({ bar: ['a', 'b', 'c']})
+     * ```
+     *
+     * @param input The parameter object
+     *
+     * @category Helper
+     */
+    addCustomParam(input: ParamBag<any>): void;
+    /**
+     * Add JSON:API field.
+     *
+     * The name of this method might be miss leading. Use this to explicitely request for specific fields on an entity.
+     *
+     * @param type Resource type
+     * @param fields Array of field names in the given resource type
+     *
+     * @category JSON:API Query
+     */
+    addFields(type: string, fields: string[]): this;
+    /**
+     * Add JSON:API sort.
+     *
+     * Used to return the list of items in specific order.
+     *
+     * [Read more about Sort in Drupal.org Documentation](https://www.drupal.org/docs/8/modules/jsonapi/sorting)
+     *
+     * @param path A 'path' identifies a field on a resource
+     * @param direction Sort direction `ASC` or `DESC`
+     *
+     * @category JSON:API Query
+     */
+    addSort(path: string, direction?: string): this;
+    /**
+     * Add JSON:API page limit.
+     *
+     * Use to restrict max amount of items returned in the listing.
+     * Using this for pagination is tricky, and make sure you read
+     * the following document on Drupal.org to implement it correctly.
+     *
+     * [Read more about Pagination in Drupal.org Documentation](https://www.drupal.org/docs/8/core/modules/jsonapi-module/pagination)
+     *
+     * @param limit Number of items to limit to
+     *
+     * @category JSON:API Query
+     */
+    addPageLimit(limit: number): this;
+    /**
+     * Add JSON:API page offset.
+     *
+     * Use to skip some items from the start of the listing.
+     * Using this for pagination is tricky, and make sure you read
+     * the following document on Drupal.org to implement it correctly.
+     *
+     * [Read more about Pagination in Drupal.org Documentation](https://www.drupal.org/docs/8/core/modules/jsonapi-module/pagination)
+     *
+     * @param offset Number of items to skip from the begining.
+     *
+     * @category JSON:API Query
+     */
+    addPageOffset(offset: number): this;
+    /**
+     * Add JSON:API include.
+     *
+     * Used to add referenced resources inside same request.
+     * Thereby preventing additional api calls.
+     *
+     * [Read more about Includes in Drupal.org Documentation](https://www.drupal.org/docs/8/modules/jsonapi/includes)
+     *
+     * @param fields Array of field names
+     *
+     * @category JSON:API Query
+     */
+    addInclude(fields: string[]): this;
+    /**
+     * Add JSON:API group.
+     *
+     * @param name Name of the group
+     * @param conjunction All groups have conjunctions and a conjunction is either `AND` or `OR`.
+     * @param memberOf Name of the group, this group belongs to
+     *
+     * @category JSON:API Query
+     */
+    addGroup(name: string, conjunction?: string, memberOf?: string): this;
+    /**
+     * Add JSON:API filter.
+     *
+     * Following values can be used for the operator. If none is provided, it assumes "`=`" by default.
+     * ```
+     *   '=', '<>',
+     *   '>', '>=', '<', '<=',
+     *   'STARTS_WITH', 'CONTAINS', 'ENDS_WITH',
+     *   'IN', 'NOT IN',
+     *   'BETWEEN', 'NOT BETWEEN',
+     *   'IS NULL', 'IS NOT NULL'
+     * ```
+     *
+     * **NOTE: Make sure you match the value supplied based on the operators used as per the table below**
+     *
+     * | Value Type | Operator | Comment |
+     * | ---   | ---  | ---         |
+     * | `string`     | `=`, `<>`, `>`, `>=`, `<`, `<=`, `STARTS_WITH`, `CONTAINS`, `ENDS_WITH` | |
+     * | `string[]`    | `IN`, `NOT IN` | |
+     * | `string[]` _size 2_ | `BETWEEN`, `NOT BETWEEN` | The first item is used for min (start of the range), and the second item is used for max (end of the range).
+     * | `null`    | `IS NULL`, `IS NOT NULL` | Must use `null`
+     *
+     * [Read more about filter in Drupal.org Documentation](https://www.drupal.org/docs/8/core/modules/jsonapi-module/filtering)
+     *
+     * @param path A 'path' identifies a field on a resource
+     * @param value string[] | null` | A 'value' is the thing you compare against. For operators like "IN" which supports multiple parameters, you can supply an array.
+     * @param operator An 'operator' is a method of comparison
+     * @param memberOf Name of the group, the filter belongs to
+     *
+     * @category JSON:API Query
+     */
+    addFilter(path: string, value: string | string[] | null, operator?: string, memberOf?: string, key?: string): this;
+    /**
+     * @ignore
+     */
+    private getIndexId;
+    private generateKeyName;
+    /**
+     * Get query object.
+     *
+     * @category Helper
+     */
+    getQueryObject(): ParamBag<any>;
+    /**
+     * Get query string.
+     *
+     * @param options Options to be passed to `qs` library during parsing.
+     *
+     * @category Helper
+     */
+    getQueryString(options?: object): string;
+    /**
+     * Clear all parameters added so far.
+     *
+     * @category Helper
+     */
+    clear(): this;
+    /**
+     * Initialize with a previously stored query object.
+     *
+     * @category Init
+     */
+    initializeWithQueryObject(input: any): this;
+    /**
+     * Initialize with a previously stored query string.
+     *
+     * @param input The Query string to use for initializing.
+     * @param options Options to be passed to `qs` library during parsing.
+     *
+     * @category Init
+     */
+    initializeWithQueryString(input: string, options?: object): this;
+    /**
+     * Clone a given DrupalJsonApiParam object.
+     *
+     * @category Helper
+     */
+    clone(input: DrupalJsonApiParamsInterface): this;
+    /**
+     * Set options that is passed to qs when parsing/serializing.
+     *
+     * @see https://www.npmjs.com/package/qs
+     */
+    setQsOption(options: object): this;
+    /**
+     * Get options that is passed to qs when parsing/serializing.
+     *
+     * @see https://www.npmjs.com/package/qs
+     */
+    getQsOption(): object;
+    /**
+     * Initialize with a previously stored query/object/query string.
+     *
+     * @category Init
+     */
+    initialize(input?: string | object | DrupalJsonApiParamsInterface): this;
+}

@@ -1,0 +1,9 @@
+'use strict';
+
+var apiClient = require('@drupal-api-client/api-client');
+
+var p=class s extends apiClient.ApiClient{constructor(t,e){super(t,e);let{apiPrefix:o}=e||{};this.apiPrefix=o||"router/translate-path";}async translatePath(t,e){let o=e?.rawResponse||!1,r=e?.locale||this.defaultLocale,c=this.createURL({localeSegment:r,path:t}),l=s.createCacheKey({localeSegment:r,path:t});if(!o&&!e?.disableCache){let u=await this.getCachedResponse(l);if(u)return u}this.debug&&this.log("verbose",`Fetching endpoint ${c}`);let R=e?.disableAuthentication?{credentials:"omit"}:{},{response:n,error:i}=await this.fetch(c,R);if(i)throw this.debug&&this.log("error",`Failed to translate path. Path: ${t}, Error: ${i.message}`),i;let h=n.status,d=n.clone(),a=await n.json();return this.cache&&!e?.disableCache&&h<400&&await this.cache?.set(l,a),o?{response:d,json:a}:a}createURL({localeSegment:t,path:e}){return new URL(`${t??""}/${this.apiPrefix}?path=${e}`,this.baseUrl).toString()}static createCacheKey({localeSegment:t,path:e}){return t?`${t}--${e}`:e}};var m=s=>typeof s=="object"&&s!==null&&"json"in s,y=s=>typeof s=="object"&&s!==null&&"entity"in s;
+
+exports.DecoupledRouterClient = p;
+exports.isRaw = m;
+exports.isResolved = y;

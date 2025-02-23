@@ -1,0 +1,7 @@
+'use strict';
+
+var nanostores = require('nanostores');
+
+var a=()=>{let t=nanostores.deepMap({});return {get:async e=>t.get()[e],set:async(e,r)=>{t.setKey(e,r);}}};
+
+exports.createCache = a;
